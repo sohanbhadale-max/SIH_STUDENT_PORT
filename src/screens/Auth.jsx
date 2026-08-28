@@ -131,14 +131,14 @@ function GlobalLogin({ onPickRole, onRegister }) {
     setLoading(true)
 
     // 1. Fetch latest Cloud State across all connected laptops
-    let currentUsers = db.users
-    let currentProfiles = db.profiles || {}
+    let currentUsers = db?.users || {}
+    let currentProfiles = db?.profiles || {}
     try {
       const cloudData = await CloudSyncEngine.fetchCloudState()
       if (cloudData) {
         dispatch({ type: 'CLOUD_SYNC', payload: cloudData })
-        currentUsers = { ...db.users, ...(cloudData.users || {}) }
-        currentProfiles = { ...db.profiles, ...(cloudData.profiles || {}) }
+        currentUsers = { ...(db?.users || {}), ...(cloudData.users || {}) }
+        currentProfiles = { ...(db?.profiles || {}), ...(cloudData.profiles || {}) }
       }
     } catch (err) {
       console.warn('Offline login check using cached local store:', err)
@@ -165,10 +165,10 @@ function GlobalLogin({ onPickRole, onRegister }) {
       return
     }
 
-    login(matchedUser.id)
+    login(matchedUser.id, matchedUser, currentProfiles[matchedUser.id])
   }
 
-  const allUsersList = Object.values(db.users)
+  const allAccounts = Object.values(db?.users || {})
 
   return (
     <div className="auth-wrap">
@@ -319,7 +319,7 @@ function Login({ role, onBack, onSignup }) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const roleMeta = ROLES.find((r) => r.key === role)
-  const demoUsers = Object.values(db.users).filter((u) => u.role === role).slice(0, 4)
+  const demoUsers = Object.values(db?.users || {}).filter((u) => u.role === role).slice(0, 4)
 
   const submit = async (e) => {
     e.preventDefault()
