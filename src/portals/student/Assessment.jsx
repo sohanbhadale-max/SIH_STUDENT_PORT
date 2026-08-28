@@ -12,7 +12,7 @@ export function Assessment() {
   const toast = useToast()
   const id = session.userId
   const profile = profileOf(db, id)
-  const existing = db.assessments[id]
+  const existing = db?.assessments?.[id]
 
   const [phase, setPhase] = useState(existing ? 'done' : 'intro')
   const [answers, setAnswers] = useState({})
