@@ -3,6 +3,7 @@ import { uid, todayISO } from '../lib/util'
 import { useStore } from '../lib/store'
 import { ALL_SKILLS, DEGREES, EDU_LEVELS, INTEREST_AREAS } from '../lib/seed'
 import { Field, TextInput, Select, TextArea, Icon, SkillChips, useToast } from '../components/ui'
+import { AuthHeroSlideshow } from './Auth'
 
 const blank = {
   student: { name: '', age: '', email: '', phone: '', password: '', photo: null, eduLevel: 'Bachelor’s Degree', eduInstitution: '', degree: '', institute: '', interests: [], jobInterest: '', skills: [] },
@@ -88,24 +89,19 @@ export function ProfileWizard({ role, onBack, initial, onSave, compact = false }
 
   if (compact) return <div>{inner}</div>
 
+  const heroSub =
+    role === 'student' ? 'Your profile powers internship matching, course recommendations and your resume. Skills become visible only after you complete a skill assessment.'
+    : role === 'faculty' ? 'Tell students and institutes who you are. Experience and research papers are optional.'
+    : role === 'institute' ? 'We verify institutes via institutional email OTP and AISHE records before unlocking student analytics.'
+    : 'We verify companies using the CIN so students only see genuine employers.'
+
   return (
     <div className="auth-wrap">
-      <div className="auth-hero">
-        <div className="brand" style={{ padding: 0 }}>
-          <div className="brand-mark" style={{ width: 44, height: 44, fontSize: 22 }}>S</div>
-          <div className="brand-name" style={{ fontSize: 20 }}>SkillBridge<span>Campus to career</span></div>
-        </div>
-        <div>
-          <h1 style={{ fontSize: 32 }}>Let’s set up your <em>{{ student: 'student', faculty: 'faculty', institute: 'institute', industry: 'company' }[role]}</em> profile.</h1>
-          <p style={{ maxWidth: 430, color: '#b9c6cd', marginTop: 14, lineHeight: 1.7 }}>
-            {role === 'student' && 'Your profile powers internship matching, course recommendations and your resume. Skills become visible only after you complete a skill assessment.'}
-            {role === 'faculty' && 'Tell students and institutes who you are. Experience and research papers are optional.'}
-            {role === 'institute' && 'We verify institutes via institutional email OTP and AISHE records before unlocking student analytics.'}
-            {role === 'industry' && 'We verify companies using the CIN so students only see genuine employers.'}
-          </p>
-        </div>
-        <div className="hero-foot">{steps.length} quick steps</div>
-      </div>
+      <AuthHeroSlideshow
+        customTitle={`Let’s set up your ${{ student: 'student', faculty: 'faculty', institute: 'institute', industry: 'company' }[role]} profile.`}
+        customSub={heroSub}
+        footText={`${steps.length} quick registration steps`}
+      />
       <div className="auth-panel" style={{ justifyContent: 'flex-start', paddingTop: 40, overflowY: 'auto' }}>
         {inner}
       </div>

@@ -1,8 +1,97 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useStore } from '../lib/store'
 import { CloudSyncEngine } from '../lib/cloudSync'
 import { Icon } from '../components/ui'
 import { ProfileWizard } from './ProfileWizard'
+
+const SLIDES = [
+  { url: '/SLIDE/3 (1).jpeg', title: 'Bridging Academia & Industry', sub: 'Skill Mapping, Internships & Placement Portal' },
+  { url: '/SLIDE/3 (2).jpeg', title: 'Empowering Next-Gen Talent', sub: 'Verified Credentials, Skill Assessments & Employer Matching' },
+  { url: '/SLIDE/3 (3).jpeg', title: 'Unified Ecosystem', sub: 'Connecting Students, Faculty, Academic Institutes & Employers' },
+]
+
+export function AuthHeroSlideshow({ customTitle, customSub, footText }) {
+  const [slideIdx, setSlideIdx] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSlideIdx((prev) => (prev + 1) % SLIDES.length)
+    }, 3800)
+    return () => clearInterval(timer)
+  }, [])
+
+  return (
+    <div className="auth-hero" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Background Slideshow Layer */}
+      {SLIDES.map((slide, i) => (
+        <div
+          key={slide.url}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url("${encodeURI(slide.url)}")`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: i === slideIdx ? 1 : 0,
+            transition: 'opacity 1.2s ease-in-out, transform 7s ease-out',
+            transform: i === slideIdx ? 'scale(1.06)' : 'scale(1.0)',
+            zIndex: 0
+          }}
+        />
+      ))}
+
+      {/* Dark Overlay Gradient for High Contrast Text */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(180deg, rgba(13,27,36,0.85) 0%, rgba(13,27,36,0.70) 50%, rgba(13,27,36,0.94) 100%)',
+          zIndex: 1
+        }}
+      />
+
+      {/* Foreground Content */}
+      <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div className="brand" style={{ padding: 0, marginBottom: 16 }}>
+          <img src="/logo.png" alt="SkillBridge Logo" style={{ height: 48, background: '#ffffff', padding: '6px 12px', borderRadius: 8, boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }} />
+        </div>
+
+        <div>
+          <h1 style={{ fontSize: 36, textShadow: '0 2px 10px rgba(0,0,0,0.6)', margin: 0 }}>
+            {customTitle || SLIDES[slideIdx].title}
+          </h1>
+          <p style={{ maxWidth: 440, color: '#e2e9ef', marginTop: 14, lineHeight: 1.7, fontSize: 15, textShadow: '0 1px 4px rgba(0,0,0,0.7)' }}>
+            {customSub || SLIDES[slideIdx].sub}
+          </p>
+
+          {/* Indicator Dots */}
+          <div style={{ display: 'flex', gap: 8, marginTop: 22 }}>
+            {SLIDES.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setSlideIdx(i)}
+                style={{
+                  width: i === slideIdx ? 26 : 10,
+                  height: 10,
+                  borderRadius: 5,
+                  background: i === slideIdx ? 'var(--marigold)' : 'rgba(255,255,255,0.4)',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="hero-foot" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
+          {footText || '☁️ Realtime Cloud Database & Email Password Authentication'}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const ROLES = [
   { key: 'student', label: 'Student', icon: 'grad', tint: 'var(--marigold-soft)', desc: 'Build your profile, prove your skills, land internships & jobs.' },
@@ -89,19 +178,11 @@ function GlobalLogin({ onPickRole, onRegister }) {
 
   return (
     <div className="auth-wrap">
-      <div className="auth-hero">
-        <div className="brand" style={{ padding: 0, marginBottom: 16 }}>
-          <img src="/logo.png" alt="SkillBridge Logo" style={{ height: 48, background: '#ffffff', padding: '6px 12px', borderRadius: 8, boxShadow: '0 4px 14px rgba(0,0,0,0.2)' }} />
-        </div>
-        <div>
-          <h1>Global Single Sign-On Portal</h1>
-          <p style={{ maxWidth: 440, color: '#b9c6cd', marginTop: 14, lineHeight: 1.7 }}>
-            One single login for <b>Students</b>, <b>Faculty</b>, <b>Institutes</b>, and <b>Industry Recruiters</b>.
-            Your role is detected automatically with real-time cloud synchronization.
-          </p>
-        </div>
-        <div className="hero-foot">☁️ Realtime Cloud Database & Email Password Authentication</div>
-      </div>
+      <AuthHeroSlideshow
+        customTitle="Global Single Sign-On Portal"
+        customSub="One single login for Students, Faculty, Academic Institutes, and Industry Recruiters. Realtime cloud database synchronization."
+        footText="☁️ Realtime Cloud Database & Email Password Authentication"
+      />
 
       <div className="auth-panel" style={{ overflowY: 'auto' }}>
         <h1 style={{ fontSize: 26, marginBottom: 4 }}>Sign in to SkillBridge</h1>
@@ -187,18 +268,11 @@ function GlobalLogin({ onPickRole, onRegister }) {
 function RoleSelect({ onPick, onLogin }) {
   return (
     <div className="auth-wrap">
-      <div className="auth-hero">
-        <div className="brand" style={{ padding: 0, marginBottom: 16 }}>
-          <img src="/logo.png" alt="SkillBridge Logo" style={{ height: 48, background: '#ffffff', padding: '6px 12px', borderRadius: 8, boxShadow: '0 4px 14px rgba(0,0,0,0.2)' }} />
-        </div>
-        <div>
-          <h1>Create your <em>SkillBridge</em> account.</h1>
-          <p style={{ maxWidth: 440, color: '#b9c6cd', marginTop: 14, lineHeight: 1.7 }}>
-            Select your account type to set up your profile and password.
-          </p>
-        </div>
-        <div className="hero-foot">Realtime Cloud Storage & Password Registration</div>
-      </div>
+      <AuthHeroSlideshow
+        customTitle="Create your SkillBridge Account"
+        customSub="Select your account type to set up your profile, skill mapping credentials, and authentication password."
+        footText="Realtime Cloud Storage & Password Registration"
+      />
       <div className="auth-panel">
         <button className="btn btn-ghost btn-sm" style={{ alignSelf: 'flex-start', marginBottom: 14 }} onClick={onLogin}>
           ← Back to Global Sign In
@@ -278,18 +352,11 @@ function Login({ role, onBack, onSignup }) {
 
   return (
     <div className="auth-wrap">
-      <div className="auth-hero">
-        <div className="brand" style={{ padding: 0, marginBottom: 16 }}>
-          <img src="/logo.png" alt="SkillBridge Logo" style={{ height: 48, background: '#ffffff', padding: '6px 12px', borderRadius: 8, boxShadow: '0 4px 14px rgba(0,0,0,0.2)' }} />
-        </div>
-        <div>
-          <h1>Welcome back to the <em>{roleMeta.label}</em> portal.</h1>
-          <p style={{ maxWidth: 440, color: '#b9c6cd', marginTop: 14, lineHeight: 1.6 }}>
-            🔒 Authenticated via Realtime Cloud Database & Email Password Authentication.
-          </p>
-        </div>
-        <div className="hero-foot">Login with your registered email or phone number</div>
-      </div>
+      <AuthHeroSlideshow
+        customTitle={`Welcome back to ${roleMeta.label} Portal`}
+        customSub="🔒 Authenticated via Realtime Cloud Database & Email Password Authentication."
+        footText="Login with your registered email or phone number"
+      />
       <div className="auth-panel">
         <button className="btn btn-ghost btn-sm" style={{ alignSelf: 'flex-start', marginBottom: 18 }} onClick={onBack}>
           ← Back to Global Sign In
