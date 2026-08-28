@@ -15,6 +15,92 @@ const KNOWN_ISSUERS = [
   { name: 'Udemy Certificate of Completion', trust: 80, tier: 'Verified Learning Provider', icon: 'book', badgeColor: 'gray' },
 ]
 
+const TRUSTED_DOMAINS = [
+  { domain: 'credly.com', name: 'Credly Digital Badge', trust: 98 },
+  { domain: 'swayam.gov.in', name: 'NPTEL / SWAYAM (Govt of India)', trust: 98 },
+  { domain: 'nptel.ac.in', name: 'NPTEL / SWAYAM (Govt of India)', trust: 98 },
+  { domain: 'aws.amazon.com', name: 'Amazon Web Services (AWS)', trust: 100 },
+  { domain: 'cisco.com', name: 'Cisco Networking Academy', trust: 98 },
+  { domain: 'coursera.org', name: 'Coursera / edX Partner', trust: 90 },
+  { domain: 'edx.org', name: 'Coursera / edX Partner', trust: 90 },
+  { domain: 'sertifier.com', name: 'Sertifier Verified Badge', trust: 95 },
+  { domain: 'microsoft.com', name: 'Microsoft Certified Professional', trust: 98 },
+  { domain: 'google.com', name: 'Google Cloud Platform (GCP)', trust: 100 },
+  { domain: 'udemy.com', name: 'Udemy Certificate of Completion', trust: 80 },
+  { domain: 'hackerrank.com', name: 'HackerRank Verified Skill Certificate', trust: 92 },
+  { domain: 'leetcode.com', name: 'LeetCode Verified Badge', trust: 90 }
+]
+
+const VALID_SKILLS_DATABASE = [
+  'AWS', 'Cloud & DevOps', 'React', 'Node.js', 'SQL', 'JavaScript', 'Python', 'Java',
+  'C', 'C++', 'Linux', 'Machine Learning', 'Statistics', 'Power BI', 'Excel', 'Spring Boot',
+  'Embedded C', 'RTOS', 'Communication', 'Problem Solving', 'Docker', 'Kubernetes',
+  'Git', 'Cybersecurity', 'Data Science', 'Data Analytics', 'HTML', 'CSS', 'Tailwind',
+  'TypeScript', 'MongoDB', 'PostgreSQL', 'Express', 'Figma', 'UI/UX'
+]
+
+function validateCredentialInput({ title, issuer, url, certId, extractedSkills }) {
+  const errors = []
+  const cleanTitle = (title || '').trim()
+  const cleanUrl = (url || '').trim().toLowerCase()
+  const cleanCertId = (certId || '').trim()
+
+  if (!cleanTitle || cleanTitle.length < 4) {
+    errors.push('Certificate Title must be at least 4 characters long.')
+  } else if (/^(asdf|qwer|1234|test|xyz|abc|xxx|aaaa|bbbb|garbage|fake)+$/i.test(cleanTitle.replace(/\s/g, ''))) {
+    errors.push('Certificate Title appears to be invalid or test gibberish.')
+  }
+
+  if (!cleanCertId || cleanCertId.length < 4) {
+    errors.push('Certificate ID / Serial Number is required (e.g. AWS-89210-2026).')
+  } else if (/^(12345|abcde|asdfg|test1|00000|11111|xxxxx|asdf)+$/i.test(cleanCertId.replace(/\s/g, ''))) {
+    errors.push('Certificate ID is invalid or contains test filler data.')
+  }
+
+  let matchedDomain = null
+  let isURLValid = false
+
+  if (!cleanUrl) {
+    errors.push('Credential Verification URL is required.')
+  } else {
+    try {
+      const parsedUrl = new URL(cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`)
+      isURLValid = true
+      matchedDomain = TRUSTED_DOMAINS.find((d) => parsedUrl.hostname.includes(d.domain))
+    } catch {
+      errors.push('Please enter a valid URL (e.g. https://credly.com/badges/your-id or https://swayam.gov.in/cert/123).')
+    }
+  }
+
+  if (isURLValid && !matchedDomain) {
+    errors.push('Credential URL must be from an official verification portal (Credly, AWS, NPTEL/SWAYAM, Cisco, Coursera, Sertifier, Microsoft, Google, Udemy, HackerRank).')
+  }
+
+  const rawSkillsList = extractedSkills
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+
+  const validatedSkills = rawSkillsList.filter((sk) => {
+    const norm = sk.toLowerCase()
+    return VALID_SKILLS_DATABASE.some((validSk) => validSk.toLowerCase() === norm || norm.includes(validSk.toLowerCase()))
+  })
+
+  if (rawSkillsList.length > 0 && validatedSkills.length === 0) {
+    errors.push('No recognized technical skills found. Please enter standard skills like React, Python, AWS, SQL, Machine Learning.')
+  }
+
+  let calculatedTrust = matchedDomain ? matchedDomain.trust : 0
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    status: errors.length === 0 ? 'Verified' : 'Rejected',
+    trustScore: calculatedTrust,
+    skills: validatedSkills.length > 0 ? validatedSkills : ['General Technical Competency']
+  }
+}
+
 export function CredentialVerificationModule() {
   const { db, session, saveProfile, notify } = useStore()
   const toast = useToast()
@@ -50,19 +136,17 @@ export function CredentialVerificationModule() {
   const [issuer, setIssuer] = useState('Amazon Web Services (AWS)')
   const [url, setUrl] = useState('')
   const [certId, setCertId] = useState('')
-  const [extractedSkills, setExtractedSkills] = useState('React, Cloud, Security, Python')
+  const [extractedSkills, setExtractedSkills] = useState('React, Cloud & DevOps, Python, SQL')
+  const [formErrors, setFormErrors] = useState([])
   const [isVerifying, setIsVerifying] = useState(false)
   const [openModal, setOpenModal] = useState(false)
 
-  // Compute Overall Trust Score
   const avgTrustScore = credentials.length
     ? Math.round(credentials.reduce((acc, c) => acc + c.trustScore, 0) / credentials.length)
     : 85
 
-  // All Verified Skills across credentials
   const allVerifiedSkills = [...new Set(credentials.flatMap((c) => c.skills))]
 
-  // AI Career Path Match calculation
   const careerPaths = [
     {
       role: 'Cloud & DevOps Architect',
@@ -86,24 +170,32 @@ export function CredentialVerificationModule() {
 
   const handleVerifyAndAdd = (e) => {
     e.preventDefault()
-    if (!title.trim()) return
+    setFormErrors([])
+
+    const validation = validateCredentialInput({
+      title,
+      issuer,
+      url,
+      certId,
+      extractedSkills
+    })
+
+    if (!validation.isValid) {
+      setFormErrors(validation.errors)
+      toast('Verification Failed: Invalid or Garbage Credential Data')
+      return
+    }
 
     setIsVerifying(true)
     setTimeout(() => {
-      const matchedIssuer = KNOWN_ISSUERS.find((i) => i.name === issuer) || { trust: 85 }
-      const newSkills = extractedSkills
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean)
-
       const newCred = {
         id: `cred-${Date.now()}`,
         title: title.trim(),
         issuer,
-        url: url.trim() || 'https://credly.com/verified-credential',
-        certId: certId.trim() || `CERT-${Math.floor(100000 + Math.random() * 900000)}`,
-        trustScore: matchedIssuer.trust,
-        skills: newSkills,
+        url: url.trim(),
+        certId: certId.trim(),
+        trustScore: validation.trustScore,
+        skills: validation.skills,
         verifiedAt: new Date().toISOString().split('T')[0],
         status: 'Verified'
       }
@@ -111,24 +203,23 @@ export function CredentialVerificationModule() {
       const updatedCreds = [newCred, ...credentials]
       setCredentials(updatedCreds)
 
-      // Update student profile skills automatically
       const currentProfileSkills = profile.skills || []
-      const mergedSkills = [...new Set([...currentProfileSkills, ...newSkills])]
+      const mergedSkills = [...new Set([...currentProfileSkills, ...validation.skills])]
       saveProfile(id, {
         verifiedCredentials: updatedCreds,
         skills: mergedSkills
       })
 
-      notify(id, `🎉 Credential "${title}" verified! Added ${newSkills.length} verified skills to your profile.`)
-      toast(`Credential Verified! Trust Score: ${matchedIssuer.trust}/100`)
+      notify(id, `🎉 Credential "${title}" verified! Added ${validation.skills.length} verified skills to your profile.`)
+      toast(`Credential Verified! Trust Score: ${validation.trustScore}/100`)
 
-      // Reset form
       setTitle('')
       setUrl('')
       setCertId('')
+      setFormErrors([])
       setIsVerifying(false)
       setOpenModal(false)
-    }, 1200)
+    }, 1000)
   }
 
   return (
@@ -138,12 +229,11 @@ export function CredentialVerificationModule() {
           <h1>Credential Verification & Skill Mapping</h1>
           <p className="sub">Verify digital credentials (Credly, AWS, Cisco, NPTEL) to extract verified skills and unlock smart recommendations.</p>
         </div>
-        <button className="btn btn-primary" onClick={() => setOpenModal(true)}>
+        <button className="btn btn-primary" onClick={() => { setFormErrors([]); setOpenModal(true) }}>
           <Icon name="plus" size={15} /> Add / Verify New Credential
         </button>
       </div>
 
-      {/* Top Metrics Row */}
       <div className="grid cols-4" style={{ marginBottom: 20 }}>
         <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <ScoreRing value={avgTrustScore} size={54} stroke={6} />
@@ -168,12 +258,11 @@ export function CredentialVerificationModule() {
 
         <div className="card">
           <b className="small muted" style={{ textTransform: 'uppercase', letterSpacing: '.06em' }}>Skill Growth Boost</b>
-          <div style={{ fontSize: 24, fontWeight: 700, marginTop: 4, color: 'var(--marigold-ink)' }}>+{credentials.length * 7}%</div>
-          <div className="small muted">Employability Advantage</div>
+          <div style={{ fontSize: 24, fontWeight: 700, marginTop: 4, color: 'var(--marigold-ink)' }}>+45%</div>
+          <div className="small muted">Higher Recruiter Visibility</div>
         </div>
       </div>
 
-      {/* Main Grid: Credentials List & AI Career Skill Mapping */}
       <div className="grid" style={{ gridTemplateColumns: '1fr 340px', gap: 20 }}>
         <div>
           <h3 style={{ marginBottom: 12 }}>Active Verified Credentials & Badges</h3>
@@ -238,10 +327,17 @@ export function CredentialVerificationModule() {
         </div>
       </div>
 
-      {/* Modal: Add / Verify New Credential */}
       {openModal && (
         <Modal title="Verify Digital Credential & Extract Skills" onClose={() => setOpenModal(false)}>
           <form onSubmit={handleVerifyAndAdd}>
+            {formErrors.length > 0 && (
+              <div style={{ padding: 12, borderRadius: 6, background: 'rgba(235, 87, 87, 0.1)', border: '1px solid var(--bad)', marginBottom: 16 }}>
+                <b style={{ color: 'var(--bad)', fontSize: 13 }}>⚠️ Verification Failed:</b>
+                <ul style={{ margin: '6px 0 0 18px', padding: 0, fontSize: 12, color: 'var(--bad)' }}>
+                  {formErrors.map((err, i) => <li key={i}>{err}</li>)}
+                </ul>
+              </div>
+            )}
             <Field label="Certification / Course Title" required>
               <TextInput
                 placeholder="e.g. AWS Certified Solutions Architect, Cisco CCNA"
@@ -257,26 +353,26 @@ export function CredentialVerificationModule() {
               </Select>
             </Field>
 
-            <Field label="Credential URL or Public Badge Link">
+            <Field label="Credential URL or Public Badge Link" required hint="Must be a valid badge link from Credly, AWS, NPTEL/SWAYAM, Cisco, Coursera, Sertifier, Google, etc.">
               <TextInput
                 placeholder="https://credly.com/badges/your-badge-id"
-                value={url} onChange={(e) => setUrl(e.target.value)}
+                value={url} onChange={(e) => setUrl(e.target.value)} required
               />
             </Field>
 
-            <Field label="Certificate ID / Serial Number">
+            <Field label="Certificate ID / Serial Number" required hint="e.g. AWS-89210-2026 or NPTEL26CS14">
               <TextInput
                 placeholder="e.g. AWS-992014-2026 or NPTEL26CS14"
-                value={certId} onChange={(e) => setCertId(e.target.value)}
+                value={certId} onChange={(e) => setCertId(e.target.value)} required
               />
             </Field>
 
             <Field label="Skills Covered (Comma Separated)">
               <TextInput
-                placeholder="e.g. AWS, Cloud & DevOps, React, Python"
+                placeholder="e.g. AWS, Cloud & DevOps, React, Python, SQL"
                 value={extractedSkills} onChange={(e) => setExtractedSkills(e.target.value)}
               />
-              <span className="small muted">Skills will be automatically verified and added to your SkillBridge profile.</span>
+              <span className="small muted">Only recognized technical skills will be added to your profile.</span>
             </Field>
 
             <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
