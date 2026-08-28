@@ -333,7 +333,16 @@ a { color: var(--sky); }
 .auth-hero h1 { font-size: 40px; color: #fdf8ee; max-width: 480px; margin-top: 26px; }
 .auth-hero h1 em { font-style: italic; color: #f7c96b; }
 .auth-hero .hero-foot { font-size: 13px; color: var(--ink-300); position: relative; z-index: 1; }
-.auth-panel { display: flex; flex-direction: column; justify-content: center; padding: 48px clamp(24px, 6vw, 72px); }
+.auth-panel {
+  display: flex; flex-direction: column; justify-content: center; padding: 48px clamp(24px, 6vw, 72px);
+  position: relative; overflow: hidden;
+}
+.auth-panel::after {
+  content: ''; position: absolute; right: -40px; bottom: -30px; width: 360px; height: 360px;
+  background: url('/logo.png') no-repeat center / contain;
+  opacity: 0.08; pointer-events: none; user-select: none; z-index: 0;
+}
+.auth-panel > * { position: relative; z-index: 1; }
 
 .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .role-card {

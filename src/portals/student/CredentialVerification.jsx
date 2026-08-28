@@ -20,7 +20,7 @@ export function CredentialVerificationModule() {
   const toast = useToast()
   const id = session.userId
   const profile = profileOf(db, id)
-  
+
   const [credentials, setCredentials] = useState(profile.verifiedCredentials || [
     {
       id: 'cred-1',

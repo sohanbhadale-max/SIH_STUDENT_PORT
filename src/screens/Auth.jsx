@@ -53,7 +53,7 @@ export function AuthHeroSlideshow({ customTitle, customSub, footText }) {
       {/* Foreground Content */}
       <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div className="brand" style={{ padding: 0, marginBottom: 16 }}>
-          <img src="/logo.png" alt="SkillBridge Logo" style={{ height: 48, background: '#ffffff', padding: '6px 12px', borderRadius: 8, boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }} />
+          <img src="/logo.png" alt="SkillBridge Logo" style={{ height: 68, background: '#ffffff', padding: '8px 16px', borderRadius: 10, boxShadow: '0 6px 20px rgba(0,0,0,0.4)' }} />
         </div>
 
         <div>
