@@ -338,7 +338,7 @@ a { color: var(--sky); }
   position: relative; overflow: hidden;
 }
 .auth-panel::after {
-  content: ''; position: absolute; right: -40px; bottom: -30px; width: 360px; height: 360px;
+  content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 440px; height: 440px;
   background: url('/logo.png') no-repeat center / contain;
   opacity: 0.08; pointer-events: none; user-select: none; z-index: 0;
 }

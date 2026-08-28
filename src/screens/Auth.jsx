@@ -50,23 +50,6 @@ export function AuthHeroSlideshow({ customTitle, customSub, footText }) {
         }}
       />
 
-      {/* Centered Watermark Logo on the Left Panel */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 1,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          opacity: 0.15,
-          filter: 'brightness(1.6) drop-shadow(0 4px 20px rgba(0,0,0,0.6))'
-        }}
-      >
-        <img src="/logo.png" alt="" style={{ width: 380, height: 'auto', display: 'block' }} />
-      </div>
-
       {/* Foreground Content */}
       <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div className="brand" style={{ padding: 0, marginBottom: 16 }}>
