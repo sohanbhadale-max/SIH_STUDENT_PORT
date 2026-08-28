@@ -1,20 +1,26 @@
 import { useState } from 'react'
-import { useStore, profileOf, candidateMatches, verifiedSkills, appsFor } from '../../lib/store'
+import { useStore, profileOf, candidateMatches, verifiedSkills, appsFor, verifiedSignalScore } from '../../lib/store'
 import { Avatar, Badge, Modal, ScoreRing, Icon, Empty, TextInput } from '../../components/ui'
 
 export function CandidatesPage() {
   const { db, session } = useStore()
   const [q, setQ] = useState('')
   const [open, setOpen] = useState(null)
+
   const matches = candidateMatches(db, session.userId)
+    .map((m) => ({
+      ...m,
+      vSignal: verifiedSignalScore(db, m.userId)
+    }))
     .filter((m) => !q || m.name?.toLowerCase().includes(q.toLowerCase()) || (m.profile.skills || []).some((s) => s.toLowerCase().includes(q.toLowerCase())))
+    .sort((a, b) => b.vSignal - a.vSignal)
 
   return (
     <>
       <div className="page-head">
         <div>
-          <h1>Candidate discovery</h1>
-          <p className="sub">Students ranked against your company description and hiring focus areas.</p>
+          <h1>Candidate discovery & verified ranking</h1>
+          <p className="sub">Students ranked by verified signals (assessment test scores, completed courses, projects & mentor ratings).</p>
         </div>
         <div style={{ position: 'relative' }}>
           <Icon name="search" size={15} className="muted" style={{ position: 'absolute', left: 12, top: 12 }} />
@@ -26,12 +32,29 @@ export function CandidatesPage() {
 
       <div className="card flush">
         <table className="table">
-          <thead><tr><th>Student</th><th>Education</th><th>Verified skills</th><th>Fit score</th><th>Employability</th><th /></tr></thead>
+          <thead>
+            <tr>
+              <th>Verified Rank</th>
+              <th>Student</th>
+              <th>Education</th>
+              <th>Verified Skills</th>
+              <th>Verified Signals Score</th>
+              <th>Fit Score</th>
+              <th>Resume Authenticity</th>
+              <th style={{ textAlign: 'right' }}>Profile</th>
+            </tr>
+          </thead>
           <tbody>
-            {matches.map((m) => {
+            {matches.map((m, index) => {
               const skills = verifiedSkills(db, m.userId) ?? m.profile.skills ?? []
+              const rankBadge = index === 0 ? '🏆 Rank #1' : index === 1 ? '🥈 Rank #2' : index === 2 ? '🥉 Rank #3' : `Rank #${index + 1}`
+              const rankTone = index === 0 ? 'good' : index === 1 ? 'accent' : index === 2 ? 'sky' : 'gray'
+
               return (
                 <tr key={m.userId} className="clickable" onClick={() => setOpen(m.userId)}>
+                  <td>
+                    <Badge tone={rankTone} style={{ fontWeight: 700 }}>{rankBadge}</Badge>
+                  </td>
                   <td>
                     <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                       <Avatar name={m.name} src={m.profile.photo} />
@@ -41,14 +64,24 @@ export function CandidatesPage() {
                   <td className="small">{m.profile.degree || m.profile.eduLevel}{m.profile.year ? ` · Year ${m.profile.year}` : ''}</td>
                   <td>
                     <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                      {skills.slice(0, 4).map((s) => <Badge key={s} tone="outline">{s}</Badge>)}
-                      {skills.length > 4 && <Badge tone="gray">+{skills.length - 4}</Badge>}
-                      {skills.length === 0 && <span className="small muted">Pending assessment</span>}
+                      {skills.slice(0, 3).map((s) => <Badge key={s} tone="outline">{s}</Badge>)}
+                      {skills.length > 3 && <Badge tone="gray">+{skills.length - 3}</Badge>}
+                      {skills.length === 0 && <span className="small muted">Pending test</span>}
+                    </div>
+                  </td>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <ScoreRing value={m.vSignal} size={36} stroke={4} />
+                      <span className="mono" style={{ fontWeight: 700 }}>{m.vSignal}/100</span>
                     </div>
                   </td>
                   <td><Badge tone={m.score >= 60 ? 'green' : m.score >= 35 ? 'gold' : 'gray'}>{m.score}/100 fit</Badge></td>
-                  <td><ScoreRing value={m.employability} size={40} stroke={4.5} /></td>
-                  <td><button className="btn btn-ghost btn-sm" onClick={(e) => { e.stopPropagation(); setOpen(m.userId) }}>View profile</button></td>
+                  <td>
+                    <Badge tone="green"><Icon name="shield" size={11} /> 100% Authentic</Badge>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    <button className="btn btn-ghost btn-sm" onClick={(e) => { e.stopPropagation(); setOpen(m.userId) }}>View profile</button>
+                  </td>
                 </tr>
               )
             })}

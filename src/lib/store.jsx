@@ -217,6 +217,22 @@ export function employability(db, userId) {
   return clamp(Math.round(0.4 * base + 0.25 * breadth + 0.15 * coursePart + 0.2 * expPart))
 }
 
+export function verifiedSignalScore(db, userId) {
+  const p = profileOf(db, userId)
+  const a = db.assessments[userId]
+  const assessSignal = a ? Math.round((a.overall / 100) * 40) : 15
+  const certsDone = db.enrollments.filter((e) => e.userId === userId && e.status === 'completed').length
+  const courseSignal = Math.min(20, certsDone * 10)
+  const projCount = (p.projects || []).length
+  const projSignal = Math.min(15, projCount * 5)
+  const internDone = p.internshipDone || db.applications.some((x) => x.applicantId === userId && x.status === 'completed')
+  const internSignal = internDone ? 15 : 0
+  const skillsCount = (verifiedSkills(db, userId) || []).length
+  const skillSignal = Math.min(10, Math.round(skillsCount * 3.33))
+
+  return Math.min(100, Math.round(assessSignal + courseSignal + projSignal + internSignal + skillSignal))
+}
+
 export function eligibleInternships(db, userId) {
   const ignored = db.ignored[userId] || {}
   const applied = new Set(db.applications.filter((a) => a.applicantId === userId).map((a) => a.postingId))
