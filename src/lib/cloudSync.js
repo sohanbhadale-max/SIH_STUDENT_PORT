@@ -290,3 +290,8 @@ export class CloudSyncEngine {
   }
 }
 
+export const API_BASE = CloudSyncEngine.API_BASE
+export const apiPost = (endpoint, body) => CloudSyncEngine.apiPost(endpoint, body)
+export const apiGet = (endpoint) => CloudSyncEngine.apiGet(endpoint)
+
+

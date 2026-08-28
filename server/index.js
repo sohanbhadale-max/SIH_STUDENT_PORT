@@ -12,6 +12,7 @@ import applicationRoutes from './routes/applicationRoutes.js'
 import facultyRoutes from './routes/facultyRoutes.js'
 import collaborationRoutes from './routes/collaborationRoutes.js'
 import analyticsRoutes from './routes/analyticsRoutes.js'
+import proctorRoutes from './routes/proctorRoutes.js'
 
 dotenv.config()
 
@@ -33,6 +34,7 @@ app.use('/api/applications', applicationRoutes)
 app.use('/api/faculty', facultyRoutes)
 app.use('/api/collaboration', collaborationRoutes)
 app.use('/api/analytics', analyticsRoutes)
+app.use('/api/proctor', proctorRoutes)
 
 app.get('/api/health', (req, res) => {
   res.json({

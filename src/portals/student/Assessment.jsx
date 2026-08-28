@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import { useStore, profileOf } from '../../lib/store'
 import { getDynamicQuestionPool } from '../../lib/seed'
+import { createProctorMonitor } from '../../lib/proctor'
 import { Icon, ProgressBar, Badge, useToast } from '../../components/ui'
 import { skillLevel, LEVEL_TONE, todayISO } from '../../lib/util'
 
@@ -16,16 +17,39 @@ export function Assessment() {
   const [idx, setIdx] = useState(0)
   const [activePool, setActivePool] = useState(null)
 
+  // Security & Proctoring State
+  const [integrityScore, setIntegrityScore] = useState(100)
+  const [riskLevel, setRiskLevel] = useState('Low Risk')
+  const [proctorLogs, setProctorLogs] = useState([])
+  const monitorRef = useRef(null)
+
   const prepareQuiz = () => {
     const previousSeen = existing?.seenHashes || []
     const pool = getDynamicQuestionPool(profile.skills || [], previousSeen, 10)
     setActivePool(pool)
     setAnswers({})
     setIdx(0)
+    setIntegrityScore(100)
+    setRiskLevel('Low Risk')
+    setProctorLogs([])
+
+    // Start Proctor Monitor
+    monitorRef.current = createProctorMonitor(id, (update) => {
+      setIntegrityScore(update.integrityScore)
+      setRiskLevel(update.riskLevel)
+      setProctorLogs(update.logs)
+      toast(`⚠️ Security Warning: ${update.details}`)
+    })
+    monitorRef.current.start()
+
     setPhase('quiz')
   }
 
   const finish = () => {
+    if (monitorRef.current) {
+      monitorRef.current.stop()
+    }
+
     if (!activePool) return
     const { questions, newSeenHashes } = activePool
     const bySkill = {}
@@ -49,12 +73,15 @@ export function Assessment() {
       takenAt: todayISO(),
       overall,
       scores,
+      integrityScore,
+      riskLevel,
+      proctorViolationsCount: proctorLogs.length,
       seenHashes: newSeenHashes
     }
 
     submitAssessment(id, result)
-    notify(id, `Assessment complete — overall score ${overall}/100. Your verified skills are now live on your profile.`)
-    toast('Assessment submitted — skills added to your profile!')
+    notify(id, `Assessment complete — overall score ${overall}/100 (Integrity: ${integrityScore}%). Skills live on profile.`)
+    toast('Assessment submitted — skills & proctor audit recorded!')
     setPhase('done')
   }
 
@@ -94,6 +121,25 @@ export function Assessment() {
     const q = questions[idx]
     return (
       <div style={{ maxWidth: 640 }}>
+        {/* Security Proctoring Status Header */}
+        <div className="card" style={{ marginBottom: 12, padding: '10px 16px', borderLeft: '4px solid var(--good)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Icon name="shield" size={16} />
+              <span className="small"><b>Proctoring Active</b> (Tab, Focus & DevTools Monitor)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span className="small muted">Integrity:</span>
+              <Badge tone={integrityScore >= 85 ? 'green' : integrityScore >= 65 ? 'gold' : 'rust'} style={{ fontWeight: 700 }}>
+                {integrityScore}% ({riskLevel})
+              </Badge>
+            </div>
+          </div>
+          <div className="small muted" style={{ fontSize: 11.5, marginTop: 4 }}>
+            🛡️ Browser Security Notice: Monitors tab focus, fullscreen state & DevTools. SHA-256 tamper-evident logs recorded.
+          </div>
+        </div>
+
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }} className="small muted">
           <span>Question {idx + 1} of {questions.length} (Dynamic Non-Repeating)</span>
           <Badge tone="sky">{q.skill}</Badge>

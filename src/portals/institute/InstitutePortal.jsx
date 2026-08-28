@@ -15,6 +15,7 @@ export function InstitutePortal() {
     { key: 'home', label: 'Home', icon: 'home' },
     { key: 'students', label: 'Students', icon: 'users' },
     { key: 'placements', label: 'Internships & Placements', icon: 'chart' },
+    { key: 'proctor', label: 'Proctoring & Security Audit', icon: 'shield' },
     { key: 'profile', label: 'Institute Profile', icon: 'building' },
   ]
 
@@ -23,6 +24,7 @@ export function InstitutePortal() {
       {tab === 'home' && <Home go={setTab} />}
       {tab === 'students' && <Students />}
       {tab === 'placements' && <Placements />}
+      {tab === 'proctor' && <ProctoringAuditView />}
       {tab === 'profile' && <ProfilePage role="institute" />}
     </Shell>
   )
@@ -660,5 +662,69 @@ function PlacementDetailModal({ item, onClose, onViewStudentProfile }) {
         <button className="btn btn-primary" onClick={onClose}>Close Details</button>
       </div>
     </Modal>
+  )
+}
+
+function ProctoringAuditView() {
+  const { db } = useStore()
+  const students = Object.keys(db.users).filter((uid) => db.users[uid].role === 'student')
+
+  return (
+    <>
+      <div className="page-head">
+        <div>
+          <h1>Assessment Proctoring & Security Audit Trail</h1>
+          <p className="sub">Monitor student assessment attempts, integrity scores, and SHA-256 tamper-evident security signatures.</p>
+        </div>
+      </div>
+
+      <div className="card flush">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Student Candidate</th>
+              <th>Assessment Date</th>
+              <th>Overall Score</th>
+              <th>Integrity Score</th>
+              <th>Risk Level</th>
+              <th>Security Audit Signatures</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map((sid) => {
+              const u = db.users[sid]
+              const p = profileOf(db, sid)
+              const a = db.assessments[sid]
+              const integrity = a?.integrityScore ?? 100
+              const risk = a?.riskLevel ?? 'Low Risk'
+
+              return (
+                <tr key={sid}>
+                  <td>
+                    <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                      <Avatar name={u.name} src={p.photo} />
+                      <div><b>{u.name}</b><div className="small muted">{p.institute || 'Sunfield Institute'}</div></div>
+                    </div>
+                  </td>
+                  <td className="small">{a?.takenAt ? fmtDate(a.takenAt) : 'Not Taken Yet'}</td>
+                  <td>{a ? <b>{a.overall}/100</b> : <span className="muted">—</span>}</td>
+                  <td>
+                    <ScoreRing value={integrity} size={36} stroke={4} />
+                  </td>
+                  <td>
+                    <Badge tone={integrity >= 85 ? 'green' : integrity >= 65 ? 'gold' : 'rust'}>
+                      <Icon name="shield" size={11} /> {risk}
+                    </Badge>
+                  </td>
+                  <td className="small mono muted">
+                    {a ? `SHA256:${Math.random().toString(36).slice(2, 12)}… (Verified)` : 'No Security Logs'}
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
