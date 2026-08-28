@@ -1,19 +1,132 @@
 // Seed data for the SkillBridge prototype. All demo data lives here;
 // the store merges it with anything users create at runtime.
 
-export const DEGREES = [
-  'BSc in Computer Science',
-  'BCA',
-  'BSc in Data Science',
-  'B.Tech Computer Science',
-  'B.Tech Electronics & Communication',
-  'B.Tech Mechanical',
-  'B.Tech Information Technology',
+export const DEGREE_TYPES = [
+  'B.E. (Bachelor of Engineering)',
+  'B.Tech (Bachelor of Technology)',
+  'M.E. (Master of Engineering)',
+  'M.Tech (Master of Technology)',
+  'BCA (Bachelor of Computer Applications)',
+  'MCA (Master of Computer Applications)',
+  'B.Sc Computer Science',
+  'M.Sc Computer Science',
+  'B.Sc Data Science',
+  'B.Sc Artificial Intelligence & Machine Learning',
+  'B.Sc Physics',
+  'B.Sc Chemistry',
+  'B.Sc Mathematics',
+  'B.Sc Statistics',
+  'B.Sc Biotechnology',
+  'M.Sc Physics',
+  'M.Sc Chemistry',
+  'M.Sc Mathematics',
   'B.Com',
+  'M.Com',
   'BBA',
-  'Diploma in Engineering',
-  'Other',
+  'MBA',
+  'BA Economics',
+  'BA English',
+  'BA Psychology',
+  'BA Political Science',
+  'MA Economics',
+  'MA English',
+  'MA Psychology',
+  'B.Sc Agriculture',
+  'M.Sc Agriculture',
+  'B.Tech Agricultural Engineering',
+  'B.Arch',
+  'M.Arch',
+  'B.Des',
+  'M.Des',
+  'LLB',
+  'BA LLB',
+  'BBA LLB',
+  'LLM',
+  'Diploma in Computer Science',
+  'Diploma in Mechanical Engineering',
+  'Diploma in Civil Engineering',
+  'Diploma in Electronics & Communication',
+  'Polytechnic Diploma',
 ]
+
+export const DEGREES = DEGREE_TYPES
+
+export const SPECIALIZATIONS_BY_DEGREE = {
+  Engineering: [
+    'Computer Science Engineering (CSE)',
+    'Artificial Intelligence & Machine Learning (AIML)',
+    'Information Science & Engineering (ISE)',
+    'Electronics & Communication Engineering (ECE)',
+    'Electrical & Electronics Engineering (EEE)',
+    'Mechanical Engineering',
+    'Civil Engineering',
+    'Chemical Engineering',
+    'Biotechnology Engineering',
+    'Aerospace Engineering',
+    'Mechatronics Engineering',
+    'Robotics & Automation',
+    'Data Science',
+    'Cyber Security',
+    'Internet of Things (IoT)'
+  ],
+  CommerceManagement: [
+    'Finance',
+    'CA (Chartered Accountancy)',
+    'Financial Analysis & Accounting',
+    'Marketing & Brand Strategy',
+    'Human Resource Management (HRM)',
+    'International Business & Supply Chain',
+    'Banking & Risk Management'
+  ],
+  ComputerApps: [
+    'Software Development & Web Technologies',
+    'Artificial Intelligence & Data Analytics',
+    'Cloud Computing & Cybersecurity',
+    'Database Systems & Big Data',
+    'Computer Networking & Systems'
+  ],
+  BasicSciences: [
+    'Pure & Applied Physics',
+    'Organic & Analytical Chemistry',
+    'Pure & Applied Mathematics',
+    'Applied Statistics & Data Analytics',
+    'Biotechnology & Genomics'
+  ],
+  ArtsSocial: [
+    'Micro & Macro Economics',
+    'Applied English Literature',
+    'Clinical & Industrial Psychology',
+    'Political Science & Governance'
+  ],
+  Specialized: [
+    'Sustainable Architecture & Urban Planning',
+    'UI/UX & Product Design',
+    'Corporate & Cyber Law',
+    'Agricultural Science & Agronomy'
+  ]
+}
+
+export function getSpecializationsForDegree(degreeType) {
+  if (!degreeType) return SPECIALIZATIONS_BY_DEGREE['Engineering']
+  const dt = degreeType.toLowerCase()
+
+  if (dt.includes('b.e.') || dt.includes('b.tech') || dt.includes('m.e.') || dt.includes('m.tech') || dt.includes('diploma') || dt.includes('polytechnic')) {
+    return SPECIALIZATIONS_BY_DEGREE['Engineering']
+  }
+  if (dt.includes('b.com') || dt.includes('m.com') || dt.includes('bba') || dt.includes('mba')) {
+    return SPECIALIZATIONS_BY_DEGREE['CommerceManagement']
+  }
+  if (dt.includes('bca') || dt.includes('mca') || dt.includes('computer science') || dt.includes('data science') || dt.includes('artificial intelligence')) {
+    return SPECIALIZATIONS_BY_DEGREE['ComputerApps']
+  }
+  if (dt.includes('physics') || dt.includes('chemistry') || dt.includes('mathematics') || dt.includes('statistics') || dt.includes('biotechnology')) {
+    return SPECIALIZATIONS_BY_DEGREE['BasicSciences']
+  }
+  if (dt.includes('ba ') || dt.includes('ma ') || dt.includes('economics') || dt.includes('english') || dt.includes('psychology') || dt.includes('political')) {
+    return SPECIALIZATIONS_BY_DEGREE['ArtsSocial']
+  }
+  return SPECIALIZATIONS_BY_DEGREE['Specialized']
+}
 
 export const EDU_LEVELS = ['School (SSLC/10th)', 'Pre-University (PUC/12th)', 'Diploma', 'Bachelor’s Degree']
 

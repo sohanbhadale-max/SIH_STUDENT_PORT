@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react'
 import { uid, todayISO } from '../lib/util'
 import { useStore } from '../lib/store'
-import { ALL_SKILLS, DEGREES, EDU_LEVELS, INTEREST_AREAS } from '../lib/seed'
+import { ALL_SKILLS, DEGREES, DEGREE_TYPES, getSpecializationsForDegree, EDU_LEVELS, INTEREST_AREAS } from '../lib/seed'
 import { Field, TextInput, Select, TextArea, Icon, SkillChips, useToast } from '../components/ui'
 import { AuthHeroSlideshow } from './Auth'
 
 const blank = {
-  student: { name: '', age: '', email: '', phone: '', password: '', photo: null, eduLevel: 'Bachelor’s Degree', eduInstitution: '', degree: '', institute: '', interests: [], jobInterest: '', skills: [] },
+  student: { name: '', age: '', email: '', phone: '', password: '', photo: null, eduLevel: 'Bachelor’s Degree', eduInstitution: '', degree: 'B.Tech (Bachelor of Technology)', specialization: 'Computer Science Engineering (CSE)', institute: '', interests: [], jobInterest: '', skills: [] },
   faculty: { name: '', email: '', phone: '', password: '', department: '', experience: '', papers: [] },
   institute: { name: '', email: '', phone: '', password: '', address: '', collegeCode: '', accreditation: { naac: '', nba: [] }, aisheId: '', emailVerified: false, aisheVerified: false },
   industry: { name: '', email: '', phone: '', password: '', address: '', cin: '', cinVerified: false, description: '', tags: [] },
@@ -136,30 +136,54 @@ function StudentStep({ step, form, set }) {
       {form.photo && <img src={form.photo} alt="preview" style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover' }} />}
     </>
   )
-  if (step === 1) return (
-    <>
-      <h2 style={{ marginBottom: 14 }}>Education</h2>
-      <Field label="Highest qualification">
-        <Select value={form.eduLevel} onChange={(e) => set('eduLevel', e.target.value)}>
-          {EDU_LEVELS.map((l) => <option key={l}>{l}</option>)}
-        </Select>
-      </Field>
-      {form.eduLevel === 'Bachelor’s Degree' && (
-        <Field label="Degree category">
-          <Select value={form.degree} onChange={(e) => set('degree', e.target.value)}>
-            <option value="">Select degree…</option>
-            {DEGREES.map((d) => <option key={d}>{d}</option>)}
+  if (step === 1) {
+    const specializations = getSpecializationsForDegree(form.degree)
+
+    return (
+      <>
+        <h2 style={{ marginBottom: 14 }}>Education Details</h2>
+        <Field label="Highest Qualification Level">
+          <Select value={form.eduLevel} onChange={(e) => set('eduLevel', e.target.value)}>
+            {EDU_LEVELS.map((l) => <option key={l}>{l}</option>)}
           </Select>
         </Field>
-      )}
-      <Field label={form.eduLevel === 'School (SSLC/10th)' ? 'School name' : 'Institution / college name'}>
-        <TextInput value={form.eduInstitution} onChange={(e) => set('eduInstitution', e.target.value)} placeholder="e.g. Sunfield Institute of Technology" />
-      </Field>
-      <Field label="Institute on SkillBridge" hint="Used for your institute dashboard — start typing to match, or leave as your college name.">
-        <TextInput value={form.institute} onChange={(e) => set('institute', e.target.value)} placeholder="e.g. Sunfield Institute of Technology" />
-      </Field>
-    </>
-  )
+
+        {/* 1. Degree Type Dropdown */}
+        <Field label="Degree Type" hint="Select your specific degree program">
+          <Select
+            value={form.degree || ''}
+            onChange={(e) => {
+              const newDeg = e.target.value
+              const specs = getSpecializationsForDegree(newDeg)
+              set('degree', newDeg)
+              set('specialization', specs[0] || '')
+            }}
+          >
+            <option value="">Select Degree Type…</option>
+            {DEGREE_TYPES.map((d) => <option key={d} value={d}>{d}</option>)}
+          </Select>
+        </Field>
+
+        {/* 2. Dependent Specialization / Branch Dropdown */}
+        <Field label="Specialization / Branch" hint="Dynamically updated based on chosen Degree Type">
+          <Select
+            value={form.specialization || ''}
+            onChange={(e) => set('specialization', e.target.value)}
+          >
+            <option value="">Select Specialization / Branch…</option>
+            {specializations.map((s) => <option key={s} value={s}>{s}</option>)}
+          </Select>
+        </Field>
+
+        <Field label={form.eduLevel === 'School (SSLC/10th)' ? 'School Name' : 'Institution / College Name'}>
+          <TextInput value={form.eduInstitution} onChange={(e) => set('eduInstitution', e.target.value)} placeholder="e.g. Sunfield Institute of Technology" />
+        </Field>
+        <Field label="Institute Name on SkillBridge" hint="Used for your institute placement portal dashboard.">
+          <TextInput value={form.institute} onChange={(e) => set('institute', e.target.value)} placeholder="e.g. Sunfield Institute of Technology" />
+        </Field>
+      </>
+    )
+  }
   if (step === 2) return (
     <>
       <h2 style={{ marginBottom: 14 }}>Interests & skills</h2>
