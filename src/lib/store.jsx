@@ -63,15 +63,40 @@ function buildSeed() {
 }
 
 function loadDb() {
+  const seed = buildSeed()
   try {
     const raw = localStorage.getItem(DB_KEY)
-    if (raw) return JSON.parse(raw)
-  } catch { /* fall through to seed */ }
-  return buildSeed()
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      return {
+        ...seed,
+        ...parsed,
+        users: { ...seed.users, ...(parsed.users || {}) },
+        profiles: { ...seed.profiles, ...(parsed.profiles || {}) },
+        jobs: parsed.jobs || seed.jobs || [],
+        internships: parsed.internships || seed.internships || [],
+        courses: parsed.courses || seed.courses || [],
+        fdps: parsed.fdps || seed.fdps || [],
+        applications: parsed.applications || seed.applications || [],
+        enrollments: parsed.enrollments || seed.enrollments || [],
+        assessments: parsed.assessments || seed.assessments || {},
+        announcements: parsed.announcements || seed.announcements || [],
+        notifications: parsed.notifications || seed.notifications || [],
+        ignored: parsed.ignored || seed.ignored || {}
+      }
+    }
+  } catch (e) {
+    console.warn('LocalStorage load error, reverting to seed:', e)
+  }
+  return seed
 }
 
 function loadSession() {
-  try { return JSON.parse(localStorage.getItem(SESSION_KEY)) } catch { return null }
+  try {
+    const s = JSON.parse(localStorage.getItem(SESSION_KEY))
+    if (s && s.userId) return s
+  } catch { /* return null */ }
+  return null
 }
 
 // ---------- reducer ----------
@@ -86,27 +111,27 @@ function reducer(db, act) {
     case 'SUBMIT_ASSESSMENT':
       return { ...db, assessments: { ...db.assessments, [act.userId]: act.result } }
     case 'ENROLL':
-      return { ...db, enrollments: [...db.enrollments, { id: uid(), userId: act.userId, courseId: act.courseId, status: 'enrolled', enrolledAt: todayISO() }] }
+      return { ...db, enrollments: [...(db.enrollments || []), { id: uid(), userId: act.userId, courseId: act.courseId, status: 'enrolled', enrolledAt: todayISO() }] }
     case 'COMPLETE_COURSE':
       return {
         ...db,
-        enrollments: db.enrollments.map((e) =>
+        enrollments: (db.enrollments || []).map((e) =>
           e.userId === act.userId && e.courseId === act.courseId
             ? { ...e, status: 'completed', completedAt: todayISO(), certificate: { id: `SB-CERT-${Math.floor(10000 + Math.random() * 89999)}`, issuedAt: todayISO() } }
             : e),
       }
     case 'APPLY':
-      return { ...db, applications: [...db.applications, act.application] }
+      return { ...db, applications: [...(db.applications || []), act.application] }
     case 'IGNORE': {
-      const cur = db.ignored[act.userId] || {}
-      return { ...db, ignored: { ...db.ignored, [act.userId]: { ...cur, [act.postingId]: true } } }
+      const cur = (db.ignored && db.ignored[act.userId]) || {}
+      return { ...db, ignored: { ...(db.ignored || {}), [act.userId]: { ...cur, [act.postingId]: true } } }
     }
     case 'APP_UPDATE': {
-      const app = db.applications.find((a) => a.id === act.appId)
-      const nextApps = db.applications.map((a) => (a.id === act.appId ? { ...a, ...act.patch } : a))
+      const app = (db.applications || []).find((a) => a.id === act.appId)
+      const nextApps = (db.applications || []).map((a) => (a.id === act.appId ? { ...a, ...act.patch } : a))
       let nextProfiles = db.profiles
       if (act.patch.status === 'accepted' && app) {
-        const job = db.jobs.find((j) => j.id === app.postingId)
+        const job = (db.jobs || []).find((j) => j.id === app.postingId)
         const companyName = db.users[job?.companyId]?.name || job?.company || 'Company'
         const currentProf = db.profiles[app.applicantId] || {}
         nextProfiles = {
@@ -121,9 +146,9 @@ function reducer(db, act) {
     }
     case 'SCHEDULE_INTERVIEW': {
       const { appId, interview } = act
-      const app = db.applications.find((a) => a.id === appId)
+      const app = (db.applications || []).find((a) => a.id === appId)
       if (!app) return db
-      const posting = db.jobs.find((j) => j.id === app.postingId) || db.internships.find((i) => i.id === app.postingId)
+      const posting = (db.jobs || []).find((j) => j.id === app.postingId) || (db.internships || []).find((i) => i.id === app.postingId)
       const companyName = posting?.company || 'Recruiter'
       const notif = {
         id: uid(),
@@ -135,20 +160,20 @@ function reducer(db, act) {
       }
       return {
         ...db,
-        applications: db.applications.map((a) => (a.id === appId ? { ...a, status: 'interviewing', interview } : a)),
-        notifications: [notif, ...db.notifications]
+        applications: (db.applications || []).map((a) => (a.id === appId ? { ...a, status: 'interviewing', interview } : a)),
+        notifications: [notif, ...(db.notifications || [])]
       }
     }
     case 'ANNOUNCE':
-      return { ...db, announcements: [act.announcement, ...db.announcements] }
+      return { ...db, announcements: [act.announcement, ...(db.announcements || [])] }
     case 'DELETE_ANNOUNCEMENT':
-      return { ...db, announcements: db.announcements.filter((a) => a.id !== act.announcementId) }
+      return { ...db, announcements: (db.announcements || []).filter((a) => a.id !== act.announcementId) }
     case 'NOTIFY':
-      return { ...db, notifications: [act.notification, ...db.notifications] }
+      return { ...db, notifications: [act.notification, ...(db.notifications || [])] }
     case 'MARK_READ':
-      return { ...db, notifications: db.notifications.map((n) => (n.userId === act.userId ? { ...n, read: true } : n)) }
+      return { ...db, notifications: (db.notifications || []).map((n) => (n.userId === act.userId ? { ...n, read: true } : n)) }
     case 'POST_POSTING':
-      return act.kind === 'job' ? { ...db, jobs: [act.posting, ...db.jobs] } : { ...db, internships: [act.posting, ...db.internships] }
+      return act.kind === 'job' ? { ...db, jobs: [act.posting, ...(db.jobs || [])] } : { ...db, internships: [act.posting, ...(db.internships || [])] }
     case 'DELETE_USER': {
       const { userId } = act
       const nextUsers = { ...db.users }
@@ -162,12 +187,12 @@ function reducer(db, act) {
         users: nextUsers,
         profiles: nextProfiles,
         assessments: nextAssessments,
-        applications: db.applications.filter((a) => a.applicantId !== userId),
-        enrollments: db.enrollments.filter((e) => e.userId !== userId),
+        applications: (db.applications || []).filter((a) => a.applicantId !== userId),
+        enrollments: (db.enrollments || []).filter((e) => e.userId !== userId),
       }
     }
     case 'CLOUD_SYNC':
-      return { ...db, ...act.payload }
+      return { ...db, ...(act.payload || {}) }
     case 'RESET':
       return buildSeed()
     default:
@@ -176,25 +201,25 @@ function reducer(db, act) {
 }
 
 // ---------- selectors & scoring ----------
-export const userOf = (db, id) => db.users[id]
-export const profileOf = (db, id) => db.profiles[id] || {}
-export const postingById = (db, kind, id) => (kind === 'job' ? db.jobs : db.internships).find((p) => p.id === id)
+export const userOf = (db, id) => db?.users?.[id]
+export const profileOf = (db, id) => db?.profiles?.[id] || {}
+export const postingById = (db, kind, id) => (kind === 'job' ? (db?.jobs || []) : (db?.internships || [])).find((p) => p.id === id)
 
 export function verifiedSkills(db, userId) {
-  const a = db.assessments[userId]
-  return a ? Object.keys(a.scores) : null
+  const a = db?.assessments?.[userId]
+  return a?.scores ? Object.keys(a.scores) : null
 }
 
 export function displayedSkills(db, userId) {
   const p = profileOf(db, userId)
-  return verifiedSkills(db, userId) ?? []
+  return verifiedSkills(db, userId) ?? p.skills ?? []
 }
 
 export function matchScore(db, userId, posting) {
   const p = profileOf(db, userId)
-  const a = db.assessments[userId]
+  const a = db?.assessments?.[userId]
   const skills = (verifiedSkills(db, userId) ?? p.skills ?? [])
-  const need = posting.skills || []
+  const need = posting?.skills || []
   const overlap = need.filter((s) => skills.includes(s)).length
   const skillPart = need.length ? overlap / need.length : 0.6
   const assessPart = a ? a.overall / 100 : 0.45
@@ -207,51 +232,50 @@ export function matchScore(db, userId, posting) {
 
 export function employability(db, userId) {
   const p = profileOf(db, userId)
-  const a = db.assessments[userId]
+  const a = db?.assessments?.[userId]
   const skills = verifiedSkills(db, userId) ?? p.skills ?? []
   const base = a ? a.overall : 40
   const breadth = Math.min(1, skills.length / 5) * 100
-  const coursesDone = (p.coursesDone || 0) + db.enrollments.filter((e) => e.userId === userId && e.status === 'completed').length
+  const coursesDone = (p.coursesDone || 0) + (db?.enrollments || []).filter((e) => e.userId === userId && e.status === 'completed').length
   const coursePart = Math.min(1, coursesDone / 2) * 100
-  const expPart = p.placed || p.internshipDone || db.applications.some((x) => x.applicantId === userId && x.status === 'completed') ? 100 : 0
+  const expPart = p.placed || p.internshipDone || (db?.applications || []).some((x) => x.applicantId === userId && x.status === 'completed') ? 100 : 0
   return clamp(Math.round(0.4 * base + 0.25 * breadth + 0.15 * coursePart + 0.2 * expPart))
 }
 
 export function verifiedSignalScore(db, userId) {
   const p = profileOf(db, userId)
-  const a = db.assessments[userId]
+  const a = db?.assessments?.[userId]
   const assessSignal = a ? Math.round((a.overall / 100) * 40) : 15
-  const certsDone = db.enrollments.filter((e) => e.userId === userId && e.status === 'completed').length
+  const certsDone = (db?.enrollments || []).filter((e) => e.userId === userId && e.status === 'completed').length
   const courseSignal = Math.min(20, certsDone * 10)
   const projCount = (p.projects || []).length
   const projSignal = Math.min(15, projCount * 5)
-  const internDone = p.internshipDone || db.applications.some((x) => x.applicantId === userId && x.status === 'completed')
+  const internDone = p.internshipDone || (db?.applications || []).some((x) => x.applicantId === userId && x.status === 'completed')
   const internSignal = internDone ? 15 : 0
-  const skillsCount = (verifiedSkills(db, userId) || []).length
-  const skillSignal = Math.min(10, Math.round(skillsCount * 3.33))
-
-  return Math.min(100, Math.round(assessSignal + courseSignal + projSignal + internSignal + skillSignal))
+  const skillsCount = (verifiedSkills(db, userId) || p.skills || []).length
+  const skillSignal = Math.min(10, Math.round(skillsCount * 2))
+  return clamp(Math.round(assessSignal + courseSignal + projSignal + internSignal + skillSignal))
 }
 
 export function eligibleInternships(db, userId) {
-  const ignored = db.ignored[userId] || {}
-  const applied = new Set(db.applications.filter((a) => a.applicantId === userId).map((a) => a.postingId))
-  return db.internships
+  const ignored = db?.ignored?.[userId] || {}
+  const applied = new Set((db?.applications || []).filter((a) => a.applicantId === userId).map((a) => a.postingId))
+  return (db?.internships || [])
     .filter((i) => !ignored[i.id] && !applied.has(i.id))
     .map((i) => ({ posting: i, score: matchScore(db, userId, i) }))
-    .filter((x) => x.score >= x.posting.minScore)
+    .filter((x) => x.score >= (x.posting.minScore || 0))
     .sort((a, b) => b.score - a.score)
 }
 
 export function recommendedCourses(db, userId) {
   const p = profileOf(db, userId)
-  const enrolledIds = new Set(db.enrollments.filter((e) => e.userId === userId).map((e) => e.courseId))
+  const enrolledIds = new Set((db?.enrollments || []).filter((e) => e.userId === userId).map((e) => e.courseId))
   const skills = verifiedSkills(db, userId) ?? p.skills ?? []
-  return db.courses
+  return (db?.courses || [])
     .filter((c) => !enrolledIds.has(c.id))
     .map((c) => {
       let score = 0
-      if ((p.interests || []).some((i) => c.interests.includes(i))) score += 2
+      if ((p.interests || []).some((i) => (c.interests || []).includes(i))) score += 2
       if (p.jobInterest && c.title.toLowerCase().includes(p.jobInterest.split(' ')[0].toLowerCase())) score += 1
       if (!skills.includes(c.skill)) score += 1
       return { course: c, score }
@@ -263,7 +287,7 @@ export function candidateMatches(db, companyId) {
   const company = profileOf(db, companyId)
   const tags = company.tags || []
   const desc = (company.description || '').toLowerCase()
-  return Object.entries(db.users)
+  return Object.entries(db?.users || {})
     .filter(([, u]) => u.role === 'student')
     .map(([id]) => {
       const p = profileOf(db, id)
@@ -272,15 +296,15 @@ export function candidateMatches(db, companyId) {
       for (const t of tags) if ((p.interests || []).includes(t)) score += 25
       for (const s of skills) if (desc.includes(s.toLowerCase())) score += 15
       const emp = employability(db, id)
-      return { userId: id, profile: p, name: db.users[id].name, score: clamp(score + Math.round(emp / 2)), employability: emp }
+      return { userId: id, profile: p, name: db.users[id]?.name || 'Student', score: clamp(score + Math.round(emp / 2)), employability: emp }
     })
     .sort((a, b) => b.score - a.score)
 }
 
 export function departmentStats(db, instituteId) {
   const inst = profileOf(db, instituteId)
-  const instName = inst.name || db.users[instituteId]?.name
-  const students = Object.entries(db.users)
+  const instName = inst.name || db?.users?.[instituteId]?.name
+  const students = Object.entries(db?.users || {})
     .filter(([, u]) => u.role === 'student')
     .map(([id, u]) => ({ id, ...profileOf(db, id), name: u.name }))
     .filter((s) => !instName || s.institute === instName)
@@ -292,7 +316,7 @@ export function departmentStats(db, instituteId) {
     stats.students.push(s)
     if (s.placed) stats.placed += 1
     if (s.internshipDone) stats.interned += 1
-    if (db.assessments[s.id]) stats.assessed += 1
+    if (db?.assessments?.[s.id]) stats.assessed += 1
     stats.empSum += employability(db, s.id)
     for (const sk of verifiedSkills(db, s.id) ?? s.skills ?? []) stats.skillCount[sk] = (stats.skillCount[sk] || 0) + 1
   }
@@ -310,9 +334,9 @@ export function departmentStats(db, instituteId) {
 
 export function requiredSkillsStats(db) {
   const counts = {}
-  for (const list of [db.jobs, db.internships])
+  for (const list of [db?.jobs || [], db?.internships || []])
     for (const p of list) for (const s of p.skills || []) counts[s] = (counts[s] || 0) + 1
-  const students = Object.values(db.users).filter((u) => u.role === 'student')
+  const students = Object.values(db?.users || {}).filter((u) => u.role === 'student')
   const total = students.length || 1
   return Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
