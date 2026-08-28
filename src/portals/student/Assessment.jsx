@@ -1,12 +1,14 @@
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { useStore, profileOf } from '../../lib/store'
+import { useI18n } from '../../lib/i18n'
 import { getDynamicQuestionPool } from '../../lib/seed'
 import { createProctorMonitor } from '../../lib/proctor'
-import { Icon, ProgressBar, Badge, useToast } from '../../components/ui'
+import { Icon, ProgressBar, Badge, Modal, useToast } from '../../components/ui'
 import { skillLevel, LEVEL_TONE, todayISO } from '../../lib/util'
 
 export function Assessment() {
   const { db, session, submitAssessment, notify } = useStore()
+  const { t } = useI18n()
   const toast = useToast()
   const id = session.userId
   const profile = profileOf(db, id)
@@ -21,9 +23,27 @@ export function Assessment() {
   const [integrityScore, setIntegrityScore] = useState(100)
   const [riskLevel, setRiskLevel] = useState('Low Risk')
   const [proctorLogs, setProctorLogs] = useState([])
+  const [showConsentModal, setShowConsentModal] = useState(false)
+  const [hasAgreedConsent, setHasAgreedConsent] = useState(false)
   const monitorRef = useRef(null)
 
-  const prepareQuiz = () => {
+  const handleStartRequest = () => {
+    setHasAgreedConsent(false)
+    setShowConsentModal(true)
+  }
+
+  const handleConsentApproved = () => {
+    setShowConsentModal(false)
+
+    // Request Fullscreen mode
+    try {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen()
+      }
+    } catch (e) {
+      console.warn('Fullscreen request bypassed:', e)
+    }
+
     const previousSeen = existing?.seenHashes || []
     const pool = getDynamicQuestionPool(profile.skills || [], previousSeen, 10)
     setActivePool(pool)
@@ -33,12 +53,12 @@ export function Assessment() {
     setRiskLevel('Low Risk')
     setProctorLogs([])
 
-    // Start Proctor Monitor
+    // Start Proctor Monitor after explicit user consent
     monitorRef.current = createProctorMonitor(id, (update) => {
       setIntegrityScore(update.integrityScore)
       setRiskLevel(update.riskLevel)
       setProctorLogs(update.logs)
-      toast(`⚠️ Security Warning: ${update.details}`)
+      toast(`⚠️ ${t('securityWarningText', 'Security Warning')}: ${update.details}`)
     })
     monitorRef.current.start()
 
@@ -48,6 +68,15 @@ export function Assessment() {
   const finish = () => {
     if (monitorRef.current) {
       monitorRef.current.stop()
+    }
+
+    // Exit Fullscreen
+    try {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen()
+      }
+    } catch (e) {
+      console.warn('Exit fullscreen bypass:', e)
     }
 
     if (!activePool) return
@@ -86,9 +115,9 @@ export function Assessment() {
   }
 
   if (phase === 'intro') return (
-    <div style={{ maxWidth: 640 }}>
+    <div style={{ maxWidth: 680 }}>
       <div className="card">
-        <h2 style={{ marginBottom: 8 }}>Dynamic Skill Assessment</h2>
+        <h2 style={{ marginBottom: 8 }}>{t('assessment', 'Dynamic Skill Assessment')}</h2>
         <p className="muted">
           A dynamic, non-repeating adaptive test tailored to your education, degree, and claimed skills.
         </p>
@@ -96,6 +125,7 @@ export function Assessment() {
           <li><b>Zero Repeated Questions</b> — Fresh randomized question pools on every attempt</li>
           <li><b>Dynamic Option Shuffling</b> — Prevents memorization and tests true comprehension</li>
           <li><b>Verified Skill Badge</b> — Publicly showcases verified skill levels to recruiters</li>
+          <li><b>Proctored Environment</b> — Tab switching & DevTools detection enabled</li>
         </ul>
         {profile.skills?.length ? (
           <div style={{ margin: '12px 0' }}>
@@ -108,11 +138,64 @@ export function Assessment() {
           <div className="notice info" style={{ margin: '12px 0' }}>You haven’t claimed any skills in your profile — starting with general technical & soft skill aptitude.</div>
         )}
         <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
-          <button className="btn btn-accent btn-lg" onClick={prepareQuiz}>
-            Start Dynamic Assessment (10 Questions) <Icon name="arrow" size={16} />
+          <button className="btn btn-accent btn-lg" onClick={handleStartRequest}>
+            {t('startAssessment', 'Start Dynamic Assessment')} (10 Questions) <Icon name="arrow" size={16} />
           </button>
         </div>
       </div>
+
+      {/* Pre-Assessment Consent & Security Rules Modal */}
+      {showConsentModal && (
+        <Modal title={t('consentTitle', 'Assessment Rules, Regulations & Privacy Notice')} onClose={() => setShowConsentModal(false)}>
+          <div style={{ padding: 4 }}>
+            <div style={{ padding: 12, borderRadius: 8, background: 'rgba(232, 147, 12, 0.1)', border: '1px solid var(--marigold)', marginBottom: 16 }}>
+              <b style={{ color: 'var(--marigold-ink)', fontSize: 14 }}>🛡️ Secure Proctored Examination Protocol</b>
+              <p className="small" style={{ margin: '4px 0 0', lineHeight: 1.5 }}>
+                Please review the security monitoring policies below before starting your assessment.
+              </p>
+            </div>
+
+            <h4 style={{ marginBottom: 8, fontSize: 14 }}>📌 Monitoring & Examination Rules:</h4>
+            <ul style={{ margin: '0 0 16px 20px', padding: 0, fontSize: 13, lineHeight: 1.8, color: 'var(--ink-700)' }}>
+              <li><b>Fullscreen Mode:</b> {t('rulesFullscreen')}</li>
+              <li><b>Tab Switching & Window Focus:</b> {t('rulesTabSwitch')}</li>
+              <li><b>DevTools & Keyboard Shortcuts:</b> {t('rulesDevTools')}</li>
+              <li><b>Screen-Sharing Signals:</b> {t('rulesScreenSharing')}</li>
+              <li><b>SHA-256 Audit Trail:</b> Security violations are digitally signed and recorded in tamper-evident logs.</li>
+            </ul>
+
+            <div style={{ padding: 12, borderRadius: 6, background: 'var(--bg-2)', border: '1px solid var(--line-2)', marginBottom: 16 }}>
+              <b className="small" style={{ color: 'var(--bad)' }}>⚠️ Important Security Disclaimer:</b>
+              <div className="small muted" style={{ marginTop: 4, lineHeight: 1.5 }}>
+                {t('disclaimerText', 'Notice: Browser-based monitoring cannot guarantee 100% detection of screen mirroring or external physical hardware devices.')}
+              </div>
+            </div>
+
+            {/* Checkbox Acknowledgment */}
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', margin: '14px 0', fontSize: 13, fontWeight: 600 }}>
+              <input
+                type="checkbox"
+                checked={hasAgreedConsent}
+                onChange={(e) => setHasAgreedConsent(e.target.checked)}
+                style={{ marginTop: 3, width: 16, height: 16, cursor: 'pointer' }}
+              />
+              <span>{t('agreeCheckbox', 'I have read, understood, and agree to the Rules, Proctoring Terms & Privacy Notice')}</span>
+            </label>
+
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+              <button className="btn btn-ghost" type="button" onClick={() => setShowConsentModal(false)}>Cancel</button>
+              <button
+                className="btn btn-accent btn-lg"
+                type="button"
+                disabled={!hasAgreedConsent}
+                onClick={handleConsentApproved}
+              >
+                ✓ {t('startTestBtn', 'I Agree & Start Test')}
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   )
 

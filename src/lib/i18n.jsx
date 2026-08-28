@@ -53,10 +53,21 @@ export const TRANSLATIONS = {
     startAssessment: 'Start Dynamic Assessment',
     educationDetails: 'Education Details',
     degreeType: 'Degree Type',
-    specialization: 'Specialization / Branch',
     selectDegree: 'Select Degree Type…',
     selectSpec: 'Select Specialization / Branch…',
-    trustScore: 'Credential Trust Score'
+    trustScore: 'Credential Trust Score',
+    consentTitle: 'Assessment Rules, Regulations & Privacy Notice',
+    rulesFullscreen: 'Fullscreen Mode required throughout test duration',
+    rulesTabSwitch: 'Tab switching & window blur will deduct Integrity Score points',
+    rulesDevTools: 'DevTools shortcuts (F12, Ctrl+Shift+I) are monitored & logged',
+    rulesScreenSharing: 'Screen-sharing & recording signals are actively monitored',
+    disclaimerText: 'Notice: Browser-based monitoring cannot guarantee 100% detection of screen mirroring or external physical hardware devices.',
+    agreeCheckbox: 'I have read, understood, and agree to the Rules, Proctoring Terms & Privacy Notice',
+    startTestBtn: 'I Agree & Start Test',
+    integrityScoreText: 'Assessment Integrity Score',
+    securityWarningText: 'Security Warning',
+    proctorAuditTitle: 'Live Proctoring & Security Audit Log',
+    tamperEvidentSig: 'SHA-256 Tamper-Evident Hash Signature Verified'
   },
 
   hi: {
@@ -103,7 +114,19 @@ export const TRANSLATIONS = {
     specialization: 'विशेषज्ञता / शाखा',
     selectDegree: 'डिग्री प्रकार चुनें…',
     selectSpec: 'विशेषज्ञता / शाखा चुनें…',
-    trustScore: 'प्रमाणपत्र विश्वास स्कोर'
+    trustScore: 'प्रमाणपत्र विश्वास स्कोर',
+    consentTitle: 'मूल्यांकन नियम, शर्तें एवं गोपनीयता सूचना',
+    rulesFullscreen: 'पूरे परीक्षण के दौरान फ़ुलस्क्रीन मोड अनिवार्य है',
+    rulesTabSwitch: 'टैब बदलना और विंडो फ़ोकस हटना स्कोर घटाएगा',
+    rulesDevTools: 'डेवटूल्स और शॉर्टकट कुंजी (F12) पर नज़र रखी जाती है',
+    rulesScreenSharing: 'स्क्रीन शेयरिंग संकेतों की निगरानी की जाती है',
+    disclaimerText: 'सूचना: ब्राउज़र-आधारित निगरानी स्क्रीन मिररिंग या बाहरी उपकरणों के 100% पता लगाने की गारंटी नहीं दे सकती।',
+    agreeCheckbox: 'मैंने सभी नियम, शर्तें और गोपनीयता सूचना पढ़ ली है और सहमत हूँ',
+    startTestBtn: 'मैं सहमत हूँ और परीक्षा शुरू करें',
+    integrityScoreText: 'मूल्यांकन सत्यनिष्ठा स्कोर',
+    securityWarningText: 'सुरक्षा चेतावनी',
+    proctorAuditTitle: 'लाइव प्रोक्टरिंग और सुरक्षा ऑडिट लॉग',
+    tamperEvidentSig: 'SHA-256 डिजिटल हस्ताक्षर सत्यापित'
   },
 
   mr: {
@@ -150,7 +173,19 @@ export const TRANSLATIONS = {
     specialization: 'शाखा / विषय',
     selectDegree: 'पदवी निवडा…',
     selectSpec: 'शाखा निवडा…',
-    trustScore: 'प्रमाणपत्र विश्वासार्हता स्કોअर'
+    trustScore: 'प्रमाणपत्र विश्वासार्हता स्कोअर',
+    consentTitle: 'परीक्षा नियम, अटी आणि गोपनीयता सूचना',
+    rulesFullscreen: 'संपूर्ण परीक्षेत फुलस्क्रीन मोड आवश्यक आहे',
+    rulesTabSwitch: 'टॅब बदलल्यास गुण कमी केले जातील',
+    rulesDevTools: 'डेव्हटूल्स शॉर्टकट (F12) वर लक्ष ठेवले जाते',
+    rulesScreenSharing: 'स्क्रीन शेअरिंग सिग्नलची देखरेख केली जाते',
+    disclaimerText: 'सूचना: ब्राउझर-आधारित देखरेख स्क्रीन मिररिंगची 100% खात्री देऊ शकत नाही.',
+    agreeCheckbox: 'मी सर्व नियम, अटी आणि गोपनीयता सूचना वाचल्या आहेत व मान्य आहेत',
+    startTestBtn: 'मी मान्य करतो आणि परीक्षा सुरू करा',
+    integrityScoreText: 'परीक्षा अचूकता स्कोअर',
+    securityWarningText: 'सुरक्षा इशारा',
+    proctorAuditTitle: 'लाइव प्रोक्टरिंग आणि सुरक्षा ऑडिट लॉग',
+    tamperEvidentSig: 'SHA-256 डिजिटल स्वाक्षरी सत्यापित'
   },
 
   kn: {
