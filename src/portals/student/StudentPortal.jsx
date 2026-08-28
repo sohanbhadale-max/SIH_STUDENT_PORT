@@ -18,7 +18,7 @@ export function StudentPortal() {
   const profile = profileOf(db, id)
   const [tab, setTab] = useState('home')
   const apps = appsFor(db, id)
-  const hasAssessment = Boolean(db.assessments[id])
+  const hasAssessment = Boolean(db?.assessments?.[id])
   const matches = eligibleInternships(db, id)
 
   const nav = [
@@ -34,7 +34,7 @@ export function StudentPortal() {
   ]
 
   return (
-    <Shell title={nav.find((n) => n.key === tab).label} nav={nav} active={tab} onNav={setTab}>
+    <Shell title={nav.find((n) => n.key === tab)?.label || 'Portal'} nav={nav} active={tab} onNav={setTab}>
       {tab === 'home' && <Home go={setTab} />}
       {tab === 'assessment' && <Assessment />}
       {tab === 'credentials' && <CredentialVerificationModule />}
@@ -53,11 +53,11 @@ function Home({ go }) {
   const toast = useToast()
   const id = session.userId
   const profile = profileOf(db, id)
-  const a = db.assessments[id]
+  const a = db?.assessments?.[id]
   const apps = appsFor(db, id)
   const emp = employability(db, id)
   const matches = eligibleInternships(db, id)
-  const certs = db.enrollments.filter((e) => e.userId === id && e.status === 'completed')
+  const certs = (db?.enrollments || []).filter((e) => e.userId === id && e.status === 'completed')
   const skills = verifiedSkills(db, id)
   const notifs = notificationsFor(db, id).slice(0, 4)
   const offersPending = apps.filter((x) => x.status === 'offer' && (!x.offer?.response || x.offer?.response === 'pending'))
