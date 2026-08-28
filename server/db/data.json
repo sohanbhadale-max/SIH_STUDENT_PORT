@@ -1,0 +1,1113 @@
+{
+  "users": {
+    "u-technova": {
+      "id": "u-technova",
+      "role": "industry",
+      "name": "TechNova Solutions",
+      "email": "careers@technova.in",
+      "phone": "+91 80 4712 2200",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-blueorbit": {
+      "id": "u-blueorbit",
+      "role": "industry",
+      "name": "BlueOrbit Systems",
+      "email": "talent@blueorbit.co.in",
+      "phone": "+91 40 6633 8800",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-finedge": {
+      "id": "u-finedge",
+      "role": "industry",
+      "name": "FinEdge Analytics",
+      "email": "people@finedge.in",
+      "phone": "+91 22 6120 4400",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-sunfield": {
+      "id": "u-sunfield",
+      "role": "institute",
+      "name": "Sunfield Institute of Technology",
+      "email": "registrar@sunfield.edu.in",
+      "phone": "+91 80 2545 0900",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-apex": {
+      "id": "u-apex",
+      "role": "institute",
+      "name": "Apex Institute of Engineering",
+      "email": "placements@apexeng.edu.in",
+      "phone": "+91 40 2300 1122",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-horizon": {
+      "id": "u-horizon",
+      "role": "institute",
+      "name": "Horizon College of Technology",
+      "email": "info@horizontech.edu.in",
+      "phone": "+91 22 2890 5544",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-meera": {
+      "id": "u-meera",
+      "role": "faculty",
+      "name": "Dr. Meera Krishnan",
+      "email": "meera.k@sunfield.edu.in",
+      "phone": "+91 98450 22110",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-arjun": {
+      "id": "u-arjun",
+      "role": "faculty",
+      "name": "Prof. Arjun Nair",
+      "email": "arjun.n@sunfield.edu.in",
+      "phone": "+91 98860 77441",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-rajesh": {
+      "id": "u-rajesh",
+      "role": "faculty",
+      "name": "Dr. Rajesh Verma",
+      "email": "rajesh.v@apexeng.edu.in",
+      "phone": "+91 98765 11223",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-swati": {
+      "id": "u-swati",
+      "role": "faculty",
+      "name": "Prof. Swati Kulkarni",
+      "email": "swati.k@horizontech.edu.in",
+      "phone": "+91 98200 44556",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-priya": {
+      "id": "u-priya",
+      "role": "student",
+      "name": "Priya Sharma",
+      "email": "priya@sunfield.edu.in",
+      "phone": "+91 9810402060",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-rahul": {
+      "id": "u-rahul",
+      "role": "student",
+      "name": "Rahul Verma",
+      "email": "rahul@sunfield.edu.in",
+      "phone": "+91 9771559535",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-ananya": {
+      "id": "u-ananya",
+      "role": "student",
+      "name": "Ananya Iyer",
+      "email": "ananya@sunfield.edu.in",
+      "phone": "+91 9753999351",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-vikram": {
+      "id": "u-vikram",
+      "role": "student",
+      "name": "Vikram Singh",
+      "email": "vikram@sunfield.edu.in",
+      "phone": "+91 9881863087",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-sneha": {
+      "id": "u-sneha",
+      "role": "student",
+      "name": "Sneha Patil",
+      "email": "sneha@sunfield.edu.in",
+      "phone": "+91 9913040244",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-karthik": {
+      "id": "u-karthik",
+      "role": "student",
+      "name": "Karthik Rao",
+      "email": "karthik@sunfield.edu.in",
+      "phone": "+91 9922126622",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-divya": {
+      "id": "u-divya",
+      "role": "student",
+      "name": "Divya Menon",
+      "email": "divya@apexeng.edu.in",
+      "phone": "+91 9729042925",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-aakash": {
+      "id": "u-aakash",
+      "role": "student",
+      "name": "Aakash Gupta",
+      "email": "aakash@apexeng.edu.in",
+      "phone": "+91 9795861111",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-ishita": {
+      "id": "u-ishita",
+      "role": "student",
+      "name": "Ishita Bose",
+      "email": "ishita@apexeng.edu.in",
+      "phone": "+91 9793678403",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-rohan": {
+      "id": "u-rohan",
+      "role": "student",
+      "name": "Rohan Kulkarni",
+      "email": "rohan@horizontech.edu.in",
+      "phone": "+91 9720713379",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-fatima": {
+      "id": "u-fatima",
+      "role": "student",
+      "name": "Fatima Khan",
+      "email": "fatima@horizontech.edu.in",
+      "phone": "+91 9865206008",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    },
+    "u-aditya": {
+      "id": "u-aditya",
+      "role": "student",
+      "name": "Aditya Joshi",
+      "email": "aditya@horizontech.edu.in",
+      "phone": "+91 9877116168",
+      "createdAt": "2026-08-28T08:15:51.528Z"
+    }
+  },
+  "profiles": {
+    "u-technova": {
+      "userId": "u-technova",
+      "name": "TechNova Solutions",
+      "email": "careers@technova.in",
+      "phone": "+91 80 4712 2200",
+      "address": "Tower B, Manyata Tech Park, Bengaluru, Karnataka",
+      "cin": "U72900KA2015PTC091234",
+      "verified": true,
+      "description": "Product engineering company building cloud-native SaaS for logistics and supply chains. We hire full-stack, cloud and data talent who ship fast and love Python, Java and AWS.",
+      "tags": [
+        "Software Development",
+        "Cloud & DevOps",
+        "Data Science & Analytics"
+      ]
+    },
+    "u-blueorbit": {
+      "userId": "u-blueorbit",
+      "name": "BlueOrbit Systems",
+      "email": "talent@blueorbit.co.in",
+      "phone": "+91 40 6633 8800",
+      "address": "Plot 19, Hardware Park, Hyderabad, Telangana",
+      "cin": "U74999TS2011PTC077410",
+      "verified": true,
+      "description": "Defence and aerospace electronics major. We look for embedded, firmware and test engineers strong in C, RTOS and microcontrollers.",
+      "tags": [
+        "Embedded Systems"
+      ]
+    },
+    "u-finedge": {
+      "userId": "u-finedge",
+      "name": "FinEdge Analytics",
+      "email": "people@finedge.in",
+      "phone": "+91 22 6120 4400",
+      "address": "One BKC, Bandra Kurla Complex, Mumbai, Maharashtra",
+      "cin": "U65990MH2018PTC312655",
+      "verified": true,
+      "description": "Fintech analytics firm serving banks and NBFCs. We hire analysts and ML engineers fluent in SQL, statistics, Python and risk modelling.",
+      "tags": [
+        "Data Science & Analytics",
+        "Machine Learning & AI",
+        "Finance & Risk"
+      ]
+    },
+    "u-sunfield": {
+      "userId": "u-sunfield",
+      "name": "Sunfield Institute of Technology",
+      "email": "registrar@sunfield.edu.in",
+      "phone": "+91 80 2545 0900",
+      "address": "Survey 88, Hosur Road, Bengaluru, Karnataka 560100",
+      "collegeCode": "SIT-204",
+      "accreditation": {
+        "naac": "A+",
+        "nba": [
+          "CSE",
+          "ECE",
+          "Mechanical"
+        ]
+      },
+      "aisheId": "I-20102",
+      "verified": true
+    },
+    "u-apex": {
+      "userId": "u-apex",
+      "name": "Apex Institute of Engineering",
+      "email": "placements@apexeng.edu.in",
+      "phone": "+91 40 2300 1122",
+      "address": "Gachibowli Main Rd, Hyderabad, Telangana 500032",
+      "collegeCode": "AIE-501",
+      "accreditation": {
+        "naac": "A",
+        "nba": [
+          "CSE",
+          "Data Science"
+        ]
+      },
+      "aisheId": "I-34910",
+      "verified": true
+    },
+    "u-horizon": {
+      "userId": "u-horizon",
+      "name": "Horizon College of Technology",
+      "email": "info@horizontech.edu.in",
+      "phone": "+91 22 2890 5544",
+      "address": "Powai Lake Road, Mumbai, Maharashtra 400076",
+      "collegeCode": "HCT-108",
+      "accreditation": {
+        "naac": "B++",
+        "nba": [
+          "ECE"
+        ]
+      },
+      "aisheId": "I-19402",
+      "verified": true
+    },
+    "u-meera": {
+      "userId": "u-meera",
+      "name": "Dr. Meera Krishnan",
+      "email": "meera.k@sunfield.edu.in",
+      "phone": "+91 98450 22110",
+      "department": "Computer Science",
+      "institute": "Sunfield Institute of Technology",
+      "experience": "12 years — Algorithms, Distributed Systems",
+      "papers": [
+        {
+          "title": "Adaptive Load Balancing in Edge Clusters",
+          "detail": "IEEE ICDCS 2024 · https://doi.org/10.1109/ICDCS.2024.11"
+        },
+        {
+          "title": "Low-cost Labs for Systems Education",
+          "detail": "SIGCSE 2023 · https://doi.org/10.1145/sigcse.2023.44"
+        }
+      ]
+    },
+    "u-arjun": {
+      "userId": "u-arjun",
+      "name": "Prof. Arjun Nair",
+      "email": "arjun.n@sunfield.edu.in",
+      "phone": "+91 98860 77441",
+      "department": "Electronics & Communication",
+      "institute": "Sunfield Institute of Technology",
+      "experience": "9 years — VLSI and Embedded Systems",
+      "papers": [
+        {
+          "title": "Power Gating Strategies for IoT ASICs",
+          "detail": "IEEE VLSID 2022"
+        }
+      ]
+    },
+    "u-rajesh": {
+      "userId": "u-rajesh",
+      "name": "Dr. Rajesh Verma",
+      "email": "rajesh.v@apexeng.edu.in",
+      "phone": "+91 98765 11223",
+      "department": "Computer Science",
+      "institute": "Apex Institute of Engineering",
+      "experience": "14 years — Data Science, Cloud Architectures",
+      "papers": [
+        {
+          "title": "Distributed Graph Processing on Big Data Platforms",
+          "detail": "IEEE TPDS 2023"
+        }
+      ]
+    },
+    "u-swati": {
+      "userId": "u-swati",
+      "name": "Prof. Swati Kulkarni",
+      "email": "swati.k@horizontech.edu.in",
+      "phone": "+91 98200 44556",
+      "department": "Data Science",
+      "institute": "Horizon College of Technology",
+      "experience": "8 years — Machine Learning, Predictive Analytics",
+      "papers": [
+        {
+          "title": "Deep Learning for Medical Image Classification",
+          "detail": "NeurIPS Workshop 2023"
+        }
+      ]
+    },
+    "u-priya": {
+      "userId": "u-priya",
+      "name": "Priya Sharma",
+      "email": "priya@sunfield.edu.in",
+      "phone": "+91 9810402060",
+      "age": 21,
+      "department": "Computer Science",
+      "degree": "B.Tech Computer Science",
+      "institute": "Sunfield Institute of Technology",
+      "year": 3,
+      "skills": [
+        "Python",
+        "SQL",
+        "Java",
+        "Problem Solving"
+      ],
+      "interests": [
+        "Software Development",
+        "Data Science & Analytics"
+      ],
+      "assessment": {
+        "overall": 78,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Software Engineer",
+      "placed": null,
+      "internshipDone": true,
+      "coursesDone": 1,
+      "live": true
+    },
+    "u-rahul": {
+      "userId": "u-rahul",
+      "name": "Rahul Verma",
+      "email": "rahul@sunfield.edu.in",
+      "phone": "+91 9771559535",
+      "age": 22,
+      "department": "Computer Science",
+      "degree": "B.Tech Computer Science",
+      "institute": "Sunfield Institute of Technology",
+      "year": 4,
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "SQL",
+        "React"
+      ],
+      "interests": [
+        "Software Development"
+      ],
+      "assessment": {
+        "overall": 84,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Software Engineer",
+      "placed": {
+        "company": "TechNova Solutions",
+        "packageLPA": 9.5
+      },
+      "internshipDone": false,
+      "coursesDone": 0,
+      "live": false
+    },
+    "u-ananya": {
+      "userId": "u-ananya",
+      "name": "Ananya Iyer",
+      "email": "ananya@sunfield.edu.in",
+      "phone": "+91 9753999351",
+      "age": 21,
+      "department": "Computer Science",
+      "degree": "B.Tech Computer Science",
+      "institute": "Sunfield Institute of Technology",
+      "year": 3,
+      "skills": [
+        "Python",
+        "Machine Learning",
+        "Statistics"
+      ],
+      "interests": [
+        "Machine Learning & AI",
+        "Data Science & Analytics"
+      ],
+      "assessment": {
+        "overall": 81,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "ML Engineer",
+      "placed": null,
+      "internshipDone": true,
+      "coursesDone": 2,
+      "live": false
+    },
+    "u-vikram": {
+      "userId": "u-vikram",
+      "name": "Vikram Singh",
+      "email": "vikram@sunfield.edu.in",
+      "phone": "+91 9881863087",
+      "age": 20,
+      "department": "Computer Science",
+      "degree": "B.Tech Computer Science",
+      "institute": "Sunfield Institute of Technology",
+      "year": 2,
+      "skills": [
+        "JavaScript",
+        "React"
+      ],
+      "interests": [
+        "Software Development",
+        "Design & UX"
+      ],
+      "assessment": {
+        "overall": 55,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Frontend Developer",
+      "placed": null,
+      "internshipDone": false,
+      "coursesDone": 0,
+      "live": false
+    },
+    "u-sneha": {
+      "userId": "u-sneha",
+      "name": "Sneha Patil",
+      "email": "sneha@sunfield.edu.in",
+      "phone": "+91 9913040244",
+      "age": 22,
+      "department": "Electronics & Communication",
+      "degree": "B.Tech Electronics & Communication",
+      "institute": "Sunfield Institute of Technology",
+      "year": 4,
+      "skills": [
+        "C",
+        "Embedded C",
+        "RTOS"
+      ],
+      "interests": [
+        "Embedded Systems"
+      ],
+      "assessment": {
+        "overall": 76,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Embedded Engineer",
+      "placed": {
+        "company": "BlueOrbit Systems",
+        "packageLPA": 7.2
+      },
+      "internshipDone": false,
+      "coursesDone": 0,
+      "live": false
+    },
+    "u-karthik": {
+      "userId": "u-karthik",
+      "name": "Karthik Rao",
+      "email": "karthik@sunfield.edu.in",
+      "phone": "+91 9922126622",
+      "age": 21,
+      "department": "Electronics & Communication",
+      "degree": "B.Tech Electronics & Communication",
+      "institute": "Sunfield Institute of Technology",
+      "year": 3,
+      "skills": [
+        "C",
+        "C++",
+        "Python"
+      ],
+      "interests": [
+        "Embedded Systems",
+        "Cybersecurity"
+      ],
+      "assessment": {
+        "overall": 63,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Firmware Engineer",
+      "placed": null,
+      "internshipDone": true,
+      "coursesDone": 0,
+      "live": false
+    },
+    "u-divya": {
+      "userId": "u-divya",
+      "name": "Divya Menon",
+      "email": "divya@apexeng.edu.in",
+      "phone": "+91 9729042925",
+      "age": 20,
+      "department": "Electronics & Communication",
+      "degree": "B.Tech Electronics & Communication",
+      "institute": "Apex Institute of Engineering",
+      "year": 2,
+      "skills": [
+        "C",
+        "Communication"
+      ],
+      "interests": [
+        "Embedded Systems"
+      ],
+      "assessment": {
+        "overall": 48,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Test Engineer",
+      "placed": null,
+      "internshipDone": false,
+      "coursesDone": 0,
+      "live": false
+    },
+    "u-aakash": {
+      "userId": "u-aakash",
+      "name": "Aakash Gupta",
+      "email": "aakash@apexeng.edu.in",
+      "phone": "+91 9795861111",
+      "age": 22,
+      "department": "Mechanical",
+      "degree": "B.Tech Mechanical",
+      "institute": "Apex Institute of Engineering",
+      "year": 4,
+      "skills": [
+        "Excel",
+        "Problem Solving"
+      ],
+      "interests": [
+        "Finance & Risk"
+      ],
+      "assessment": {
+        "overall": 52,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Operations Analyst",
+      "placed": {
+        "company": "FinEdge Analytics",
+        "packageLPA": 6.1
+      },
+      "internshipDone": false,
+      "coursesDone": 0,
+      "live": false
+    },
+    "u-ishita": {
+      "userId": "u-ishita",
+      "name": "Ishita Bose",
+      "email": "ishita@apexeng.edu.in",
+      "phone": "+91 9793678403",
+      "age": 21,
+      "department": "Data Science",
+      "degree": "BSc in Data Science",
+      "institute": "Apex Institute of Engineering",
+      "year": 3,
+      "skills": [
+        "Python",
+        "SQL",
+        "Statistics",
+        "Power BI"
+      ],
+      "interests": [
+        "Data Science & Analytics",
+        "Machine Learning & AI"
+      ],
+      "assessment": {
+        "overall": 88,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Data Analyst",
+      "placed": null,
+      "internshipDone": true,
+      "coursesDone": 2,
+      "live": false
+    },
+    "u-rohan": {
+      "userId": "u-rohan",
+      "name": "Rohan Kulkarni",
+      "email": "rohan@horizontech.edu.in",
+      "phone": "+91 9720713379",
+      "age": 21,
+      "department": "Data Science",
+      "degree": "BSc in Data Science",
+      "institute": "Horizon College of Technology",
+      "year": 3,
+      "skills": [
+        "Python",
+        "SQL"
+      ],
+      "interests": [
+        "Data Science & Analytics"
+      ],
+      "assessment": {
+        "overall": 61,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Data Analyst",
+      "placed": null,
+      "internshipDone": false,
+      "coursesDone": 0,
+      "live": false
+    },
+    "u-fatima": {
+      "userId": "u-fatima",
+      "name": "Fatima Khan",
+      "email": "fatima@horizontech.edu.in",
+      "phone": "+91 9865206008",
+      "age": 22,
+      "department": "Data Science",
+      "degree": "BSc in Data Science",
+      "institute": "Horizon College of Technology",
+      "year": 4,
+      "skills": [
+        "Python",
+        "Machine Learning",
+        "SQL",
+        "AWS"
+      ],
+      "interests": [
+        "Machine Learning & AI",
+        "Cloud & DevOps"
+      ],
+      "assessment": {
+        "overall": 90,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "ML Engineer",
+      "placed": {
+        "company": "FinEdge Analytics",
+        "packageLPA": 12.4
+      },
+      "internshipDone": true,
+      "coursesDone": 0,
+      "live": false
+    },
+    "u-aditya": {
+      "userId": "u-aditya",
+      "name": "Aditya Joshi",
+      "email": "aditya@horizontech.edu.in",
+      "phone": "+91 9877116168",
+      "age": 22,
+      "department": "Computer Science",
+      "degree": "B.Tech Computer Science",
+      "institute": "Horizon College of Technology",
+      "year": 4,
+      "skills": [
+        "AWS",
+        "Linux",
+        "Python",
+        "JavaScript"
+      ],
+      "interests": [
+        "Cloud & DevOps"
+      ],
+      "assessment": {
+        "overall": 73,
+        "takenAt": "2026-07-19T08:15:51.526Z"
+      },
+      "jobInterest": "Cloud Associate",
+      "placed": null,
+      "internshipDone": true,
+      "coursesDone": 1,
+      "live": false
+    }
+  },
+  "internships": [
+    {
+      "id": "i-fsd",
+      "companyId": "u-technova",
+      "title": "Full-Stack Development Intern",
+      "location": "Bengaluru",
+      "skills": [
+        "JavaScript",
+        "React",
+        "SQL"
+      ],
+      "duration": "6 months",
+      "stipend": "₹25,000/mo",
+      "minScore": 55,
+      "openings": 8,
+      "postedAt": "2026-08-23T08:15:51.526Z",
+      "description": "Ship real features on our logistics web app with a dedicated mentor and weekly code reviews."
+    },
+    {
+      "id": "i-de",
+      "companyId": "u-technova",
+      "title": "Data Engineering Intern",
+      "location": "Bengaluru",
+      "skills": [
+        "Python",
+        "SQL"
+      ],
+      "duration": "4 months",
+      "stipend": "₹20,000/mo",
+      "minScore": 55,
+      "openings": 4,
+      "postedAt": "2026-08-20T08:15:51.526Z",
+      "description": "Build ingestion pipelines and dbt models feeding customer dashboards."
+    },
+    {
+      "id": "i-emb",
+      "companyId": "u-blueorbit",
+      "title": "Embedded Systems Intern",
+      "location": "Hyderabad",
+      "skills": [
+        "C",
+        "Embedded C"
+      ],
+      "duration": "6 months",
+      "stipend": "₹18,000/mo",
+      "minScore": 55,
+      "openings": 6,
+      "postedAt": "2026-08-18T08:15:51.526Z",
+      "description": "Driver bring-up and unit testing on STM32 boards with the firmware team."
+    },
+    {
+      "id": "i-an",
+      "companyId": "u-finedge",
+      "title": "Analytics Intern",
+      "location": "Mumbai",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Statistics"
+      ],
+      "duration": "3 months",
+      "stipend": "₹22,000/mo",
+      "minScore": 50,
+      "openings": 5,
+      "postedAt": "2026-08-21T08:15:51.526Z",
+      "description": "Support risk analysts with data pulls, validation and portfolio reports."
+    },
+    {
+      "id": "i-ml",
+      "companyId": "u-finedge",
+      "title": "Machine Learning Intern",
+      "location": "Mumbai",
+      "skills": [
+        "Python",
+        "Machine Learning"
+      ],
+      "duration": "6 months",
+      "stipend": "₹30,000/mo",
+      "minScore": 65,
+      "openings": 3,
+      "postedAt": "2026-08-25T08:15:51.526Z",
+      "description": "Experiment tracking and model evaluation for fraud-detection systems."
+    }
+  ],
+  "jobs": [
+    {
+      "id": "j-swe",
+      "companyId": "u-technova",
+      "title": "Software Engineer",
+      "post": "Software Engineer",
+      "location": "Bengaluru",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "SQL",
+        "React"
+      ],
+      "minScore": 60,
+      "salary": "9 – 12 LPA",
+      "experience": "0–2 yrs",
+      "openings": 6,
+      "postedAt": "2026-08-19T08:15:51.526Z",
+      "description": "Build and operate microservices and React front-ends for our logistics SaaS. Work in agile squads with senior mentors."
+    },
+    {
+      "id": "j-da",
+      "companyId": "u-technova",
+      "title": "Data Analyst",
+      "post": "Data Analyst",
+      "location": "Bengaluru",
+      "skills": [
+        "Python",
+        "SQL",
+        "Power BI"
+      ],
+      "minScore": 55,
+      "salary": "7 – 9 LPA",
+      "experience": "0–2 yrs",
+      "openings": 3,
+      "postedAt": "2026-08-22T08:15:51.526Z",
+      "description": "Own dashboards and insight pipelines for customer operations. SQL-first culture, Python for automation."
+    },
+    {
+      "id": "j-cloud",
+      "companyId": "u-technova",
+      "title": "Cloud Associate Engineer",
+      "post": "Cloud Engineer",
+      "location": "Bengaluru",
+      "skills": [
+        "AWS",
+        "Linux",
+        "Python"
+      ],
+      "minScore": 55,
+      "salary": "8 – 10 LPA",
+      "experience": "0–3 yrs",
+      "openings": 4,
+      "postedAt": "2026-08-15T08:15:51.526Z",
+      "description": "Deploy, monitor and automate our multi-region AWS estate alongside the platform team."
+    },
+    {
+      "id": "j-emb",
+      "companyId": "u-blueorbit",
+      "title": "Embedded Systems Engineer",
+      "post": "Embedded Engineer",
+      "location": "Hyderabad",
+      "skills": [
+        "C",
+        "Embedded C",
+        "RTOS"
+      ],
+      "minScore": 60,
+      "salary": "7 – 9 LPA",
+      "experience": "0–2 yrs",
+      "openings": 5,
+      "postedAt": "2026-08-17T08:15:51.526Z",
+      "description": "Firmware for flight-control boards. Bare-metal C, RTOS drivers and rigorous test discipline."
+    },
+    {
+      "id": "j-test",
+      "companyId": "u-blueorbit",
+      "title": "Systems Test Engineer",
+      "post": "Test Engineer",
+      "location": "Hyderabad",
+      "skills": [
+        "Python",
+        "C"
+      ],
+      "minScore": 50,
+      "salary": "6 – 8 LPA",
+      "experience": "0–2 yrs",
+      "openings": 3,
+      "postedAt": "2026-08-12T08:15:51.526Z",
+      "description": "Automated HIL test rigs for avionics hardware. Python automation plus comfort with C codebases."
+    },
+    {
+      "id": "j-risk",
+      "companyId": "u-finedge",
+      "title": "Risk Analyst",
+      "post": "Risk Analyst",
+      "location": "Mumbai",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Statistics"
+      ],
+      "minScore": 55,
+      "salary": "8 – 11 LPA",
+      "experience": "0–2 yrs",
+      "openings": 4,
+      "postedAt": "2026-08-24T08:15:51.526Z",
+      "description": "Credit-risk modelling for bank clients. Strong SQL, statistics and storytelling with data."
+    },
+    {
+      "id": "j-mle",
+      "companyId": "u-finedge",
+      "title": "Machine Learning Engineer",
+      "post": "ML Engineer",
+      "location": "Mumbai",
+      "skills": [
+        "Python",
+        "Machine Learning",
+        "SQL"
+      ],
+      "minScore": 70,
+      "salary": "14 – 18 LPA",
+      "experience": "0–3 yrs",
+      "openings": 2,
+      "postedAt": "2026-08-26T08:15:51.526Z",
+      "description": "Productionise fraud and default-prediction models. Feature stores, drift monitoring, clean MLOps."
+    }
+  ],
+  "applications": [
+    {
+      "id": "app-priya-i1",
+      "applicantId": "u-priya",
+      "postingId": "i-fsd",
+      "kind": "internship",
+      "status": "shortlisted",
+      "appliedAt": "2026-08-20"
+    },
+    {
+      "id": "app-priya-j1",
+      "applicantId": "u-priya",
+      "postingId": "j-se",
+      "kind": "job",
+      "status": "interview_cleared",
+      "appliedAt": "2026-08-22"
+    }
+  ],
+  "learning": [
+    {
+      "id": "c-py",
+      "title": "Python for Data Science",
+      "skill": "Python",
+      "provider": "SkillBridge Academy",
+      "duration": "6 weeks",
+      "level": "Beginner",
+      "interests": [
+        "Data Science & Analytics",
+        "Machine Learning & AI",
+        "Software Development"
+      ]
+    },
+    {
+      "id": "c-sql",
+      "title": "SQL & Database Design",
+      "skill": "SQL",
+      "provider": "SkillBridge Academy",
+      "duration": "4 weeks",
+      "level": "Beginner",
+      "interests": [
+        "Data Science & Analytics",
+        "Software Development",
+        "Finance & Risk"
+      ]
+    },
+    {
+      "id": "c-react",
+      "title": "React & Modern Frontend",
+      "skill": "React",
+      "provider": "SkillBridge Academy",
+      "duration": "8 weeks",
+      "level": "Intermediate",
+      "interests": [
+        "Software Development",
+        "Design & UX"
+      ]
+    },
+    {
+      "id": "c-java",
+      "title": "Java + Spring Boot Foundations",
+      "skill": "Spring Boot",
+      "provider": "SkillBridge Academy",
+      "duration": "8 weeks",
+      "level": "Intermediate",
+      "interests": [
+        "Software Development"
+      ]
+    },
+    {
+      "id": "c-aws",
+      "title": "AWS Cloud Practitioner Prep",
+      "skill": "AWS",
+      "provider": "SkillBridge Academy",
+      "duration": "5 weeks",
+      "level": "Beginner",
+      "interests": [
+        "Cloud & DevOps"
+      ]
+    },
+    {
+      "id": "c-ml",
+      "title": "Machine Learning Foundations",
+      "skill": "Machine Learning",
+      "provider": "SkillBridge Academy",
+      "duration": "10 weeks",
+      "level": "Advanced",
+      "interests": [
+        "Machine Learning & AI",
+        "Data Science & Analytics"
+      ]
+    },
+    {
+      "id": "c-emb",
+      "title": "Embedded C & Microcontrollers",
+      "skill": "Embedded C",
+      "provider": "SkillBridge Academy",
+      "duration": "7 weeks",
+      "level": "Intermediate",
+      "interests": [
+        "Embedded Systems"
+      ]
+    },
+    {
+      "id": "c-stats",
+      "title": "Statistics for Analytics",
+      "skill": "Statistics",
+      "provider": "SkillBridge Academy",
+      "duration": "5 weeks",
+      "level": "Beginner",
+      "interests": [
+        "Data Science & Analytics",
+        "Finance & Risk"
+      ]
+    }
+  ],
+  "facultyOpportunities": [
+    {
+      "id": "fdp-101",
+      "title": "Advanced AI & Machine Learning Faculty Development Program (FDP)",
+      "type": "FDP",
+      "organizer": "Google Cloud & Sunfield Institute",
+      "domain": "Artificial Intelligence",
+      "duration": "2 Weeks (Online + Hands-on Lab)",
+      "stipend": "Fully Funded by MSDE",
+      "description": "Intensive FDP covering Deep Learning, Transformer Architectures, and MLOps deployment.",
+      "eligibility": "Assistant Professors & HODs in CSE/IT/ECE",
+      "postedAt": "2026-08-15",
+      "applicants": [
+        "u-meera"
+      ]
+    },
+    {
+      "id": "ind-201",
+      "title": "6-Month Industrial Research Fellowship in EV Mobility Systems",
+      "type": "Industrial Training",
+      "organizer": "Tata Motors R&D Center",
+      "domain": "Automotive & Embedded Systems",
+      "duration": "6 Months (On-site Pune)",
+      "stipend": "₹45,000 / month",
+      "description": "Immersive industrial exposure to Battery Management Systems (BMS) and CAN bus protocols.",
+      "eligibility": "Electrical, Mechanical & Mechatronics Faculty",
+      "postedAt": "2026-08-20",
+      "applicants": []
+    }
+  ],
+  "collaborations": [
+    {
+      "id": "col-1",
+      "title": "National Hackathon: AI for Sustainable Agriculture",
+      "type": "Innovation Challenge",
+      "industry": "Meta & AgriTech India",
+      "deadline": "2026-09-30",
+      "prizePool": "₹5,000,000",
+      "description": "Solve real-world crop yield prediction and soil health diagnostics using computer vision.",
+      "participantsCount": 142
+    },
+    {
+      "id": "col-2",
+      "title": "Weekly Mentorship Series: System Design & Cloud Architecture",
+      "type": "Mentorship Program",
+      "industry": "Amazon Web Services (AWS)",
+      "schedule": "Every Saturday, 5 PM IST",
+      "mentor": "Rajesh Verma (Principal Architect, AWS)",
+      "description": "Direct 1-on-1 mentorship for final year students building distributed systems.",
+      "participantsCount": 88
+    }
+  ],
+  "announcements": [
+    {
+      "id": "a-1",
+      "facultyId": "u-meera",
+      "institute": "Sunfield Institute of Technology",
+      "title": "Campus drive: TechNova Solutions — 12 Sep",
+      "body": "TechNova will conduct a campus drive for Software Engineer and Data Analyst roles on 12 Sep, 10:00 AM, Seminar Hall A. Students with ≥60% aggregate and completed skill assessments are eligible. Carry your updated resume.",
+      "audience": "All students",
+      "createdAt": "2026-08-26T08:15:51.526Z"
+    },
+    {
+      "id": "a-2",
+      "facultyId": "u-arjun",
+      "institute": "Sunfield Institute of Technology",
+      "title": "Skill assessment week — complete yours!",
+      "body": "The placement cell is running skill assessment week till Friday. Your assessment score unlocks internship matches and appears on your profile. Students of ECE and CSE, please prioritise this.",
+      "audience": "All students",
+      "createdAt": "2026-08-23T08:15:51.526Z"
+    },
+    {
+      "id": "a-3",
+      "facultyId": "u-rajesh",
+      "institute": "Apex Institute of Engineering",
+      "title": "FinEdge Risk Analytics placement orientation — 18 Sep",
+      "body": "Orientation session for FinEdge Analytics recruitment drive at Apex Auditorium. All final year CS & Mech students welcome.",
+      "audience": "All students",
+      "createdAt": "2026-08-25T08:15:51.526Z"
+    },
+    {
+      "id": "a-4",
+      "facultyId": "u-swati",
+      "institute": "Horizon College of Technology",
+      "title": "Data Science & ML Internship workshop — 20 Sep",
+      "body": "Hands-on preparation workshop for upcoming ML and Data Engineering internship interviews. Registration link active.",
+      "audience": "All students",
+      "createdAt": "2026-08-27T08:15:51.526Z"
+    }
+  ],
+  "lastUpdated": "2026-08-28T08:15:51.528Z"
+}

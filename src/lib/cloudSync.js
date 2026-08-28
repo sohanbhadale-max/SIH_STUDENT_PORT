@@ -257,4 +257,36 @@ export class CloudSyncEngine {
       unsubscribers.forEach((fn) => { try { fn() } catch { /* cleanup */ } })
     }
   }
+
+  // Node.js Express REST API Integration Methods
+  static get API_BASE() {
+    return typeof window !== 'undefined' && window.location.hostname === 'localhost'
+      ? 'http://localhost:5000/api'
+      : '/api'
+  }
+
+  static async apiPost(endpoint, body) {
+    try {
+      const res = await fetch(`${this.API_BASE}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+      return await res.json()
+    } catch (err) {
+      console.warn(`Backend API ${endpoint} notice:`, err.message)
+      return null
+    }
+  }
+
+  static async apiGet(endpoint) {
+    try {
+      const res = await fetch(`${this.API_BASE}${endpoint}`)
+      return await res.json()
+    } catch (err) {
+      console.warn(`Backend API ${endpoint} notice:`, err.message)
+      return null
+    }
+  }
 }
+
