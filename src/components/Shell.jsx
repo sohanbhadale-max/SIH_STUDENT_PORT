@@ -1,18 +1,29 @@
 import { useState } from 'react'
 import { useStore, notificationsFor, unreadCount, profileOf } from '../lib/store'
+import { useI18n } from '../lib/i18n'
 import { Avatar, Icon, Modal } from './ui'
 import { timeAgo, cx } from '../lib/util'
 
-const ROLE_LABEL = { student: 'Student', faculty: 'Faculty', institute: 'Institute', industry: 'Industry' }
-
 export function Shell({ title, nav, active, onNav, children, actions }) {
   const { db, session, logout, markRead, resetDemo } = useStore()
+  const { lang, setLang, t, languages } = useI18n()
   const user = db.users[session.userId]
   const profile = profileOf(db, session.userId)
   const unread = unreadCount(db, session.userId)
   const [showNotif, setShowNotif] = useState(false)
   const [fontSize, setFontSize] = useState('normal') // normal | lg | xl
   const notifs = notificationsFor(db, session.userId)
+
+  const roleLabels = {
+    student: t('studentRole', 'Student'),
+    faculty: t('facultyRole', 'Faculty'),
+    institute: t('instituteRole', 'Institute'),
+    industry: t('industryRole', 'Industry')
+  }
+
+  const translateNavLabel = (key, fallback) => {
+    return t(key, fallback)
+  }
 
   return (
     <div className={`shell font-size-${fontSize}`}>
@@ -23,14 +34,37 @@ export function Shell({ title, nav, active, onNav, children, actions }) {
       <div className="goi-utility-bar">
         <div className="goi-utility-left">
           <span className="goi-flag">🇮🇳</span>
-          <span className="goi-text"><b>भारत सरकार</b> | Government of India — Ministry of Skill Development & Entrepreneurship</span>
+          <span className="goi-text"><b>{t('govIndia')}</b></span>
         </div>
-        <div className="goi-utility-right">
+        <div className="goi-utility-right" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button className="goi-util-btn" onClick={() => setFontSize('normal')}>A-</button>
           <button className="goi-util-btn" onClick={() => setFontSize('lg')}>A</button>
           <button className="goi-util-btn" onClick={() => setFontSize('xl')}>A+</button>
           <span className="goi-divider">|</span>
-          <span className="goi-lang">English / हिंदी</span>
+
+          {/* Regional Language Selector */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <span style={{ fontSize: 13 }}>🌐</span>
+            <select
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+              className="goi-lang-select"
+              style={{
+                background: 'rgba(255,255,255,0.95)',
+                color: '#0d1b24',
+                border: '1px solid #c8d3dc',
+                borderRadius: 4,
+                padding: '2px 8px',
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              {languages.map((l) => (
+                <option key={l.code} value={l.code}>{l.native} ({l.name})</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -41,7 +75,7 @@ export function Shell({ title, nav, active, onNav, children, actions }) {
             <img src="/logo.png" alt="SkillBridge" style={{ height: 42, background: '#ffffff', padding: '3px 8px', borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,0.25)' }} />
             <div className="brand-name">
               SkillBridge
-              <span>राष्ट्रीय कौशल पोर्टल · National Portal</span>
+              <span>{t('skillPortal')}</span>
             </div>
           </div>
         </div>
@@ -50,7 +84,7 @@ export function Shell({ title, nav, active, onNav, children, actions }) {
           {nav.map((n) => (
             <button key={n.key} className={cx('topnav-item goi-nav-item', active === n.key && 'active')} onClick={() => onNav(n.key)}>
               <Icon name={n.icon} size={16} />
-              <span>{n.label}</span>
+              <span>{translateNavLabel(n.key, n.label)}</span>
               {n.badge > 0 && <span className="nav-dot">{n.badge}</span>}
             </button>
           ))}
@@ -58,7 +92,7 @@ export function Shell({ title, nav, active, onNav, children, actions }) {
 
         <div className="topnav-right">
           <span className="badge green cloud-badge" style={{ background: '#138808', color: '#fff', border: 'none' }} title="Data is stored on Cloud and synchronized in real-time across devices">
-            ☁️ Digital India Cloud Synced
+            ☁️ {t('cloudSynced')}
           </span>
 
           <button className="topnav-btn" onClick={() => setShowNotif(true)} title="Notifications">
@@ -74,7 +108,7 @@ export function Shell({ title, nav, active, onNav, children, actions }) {
             <Avatar name={user?.name} src={profile.photo} size="sm" />
             <div className="u-info">
               <div className="u-name">{user?.name}</div>
-              <div className="u-role">{ROLE_LABEL[user?.role]}</div>
+              <div className="u-role">{roleLabels[user?.role] || user?.role}</div>
             </div>
           </div>
 

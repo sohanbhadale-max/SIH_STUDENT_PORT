@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useStore } from '../lib/store'
 import { CloudSyncEngine } from '../lib/cloudSync'
+import { useI18n } from '../lib/i18n'
 import { Icon } from '../components/ui'
 import { ProfileWizard } from './ProfileWizard'
 
@@ -113,6 +114,7 @@ export function AuthFlow() {
 // Universal Global Login Component — detects role automatically across all cloud users
 function GlobalLogin({ onPickRole, onRegister }) {
   const { db, dispatch, login } = useStore()
+  const { lang, setLang, t, languages } = useI18n()
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -138,43 +140,35 @@ function GlobalLogin({ onPickRole, onRegister }) {
         currentUsers = { ...db.users, ...(cloudData.users || {}) }
         currentProfiles = { ...db.profiles, ...(cloudData.profiles || {}) }
       }
-    } catch { /* ignore */ }
+    } catch (err) {
+      console.warn('Offline login check using cached local store:', err)
+    }
 
-    // 2. Find user across ALL roles globally
-    const userList = Object.values(currentUsers)
-    const user = userList.find((u) => {
-      const uEmail = (u.email || '').toLowerCase()
+    const matchedUser = Object.values(currentUsers).find((u) => {
+      const uEmail = (u.email || '').trim().toLowerCase()
       const uPhone = (u.phone || '').replace(/\D/g, '')
-      const uId = (u.id || '').toLowerCase()
-      const uName = (u.name || '').toLowerCase()
+      const uName = (u.name || '').trim().toLowerCase()
+      const prof = currentProfiles[u.id] || {}
+      const pPhone = (prof.phone || '').replace(/\D/g, '')
+
       return (
-        uEmail === cleanId ||
-        (uEmail.includes('@') && uEmail.split('@')[0] === cleanId) ||
-        (digitsId && uPhone && uPhone.endsWith(digitsId)) ||
-        uId === cleanId ||
-        uName === rawId
+        uEmail === rawId ||
+        (digitsId && uPhone && uPhone.includes(digitsId)) ||
+        (digitsId && pPhone && pPhone.includes(digitsId)) ||
+        (rawId.length >= 3 && uName.includes(rawId))
       )
     })
 
-    if (!user) {
+    if (!matchedUser) {
       setLoading(false)
-      setError('No registered account found. Click "Create a profile" below to register.')
+      setError(`No account found matching "${identifier}". Please check spelling or click Register below.`)
       return
     }
 
-    // 3. Verify password if set
-    if (user.password && password && user.password !== password) {
-      setLoading(false)
-      setError('Incorrect password. Please try again.')
-      return
-    }
-
-    // 4. Log in into the automatically detected role portal
-    login(user.id, user, currentProfiles[user.id])
-    setLoading(false)
+    login(matchedUser.id)
   }
 
-  const allAccounts = Object.values(db.users)
+  const allUsersList = Object.values(db.users)
 
   return (
     <div className="auth-wrap">
@@ -185,7 +179,31 @@ function GlobalLogin({ onPickRole, onRegister }) {
       />
 
       <div className="auth-panel" style={{ overflowY: 'auto' }}>
-        <h1 style={{ fontSize: 26, marginBottom: 4 }}>Sign in to SkillBridge</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+          <div className="badge gold">🇮🇳 {t('govIndia', 'National Skill Portal')}</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 13 }}>🌐</span>
+            <select
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+              style={{
+                padding: '3px 8px',
+                fontSize: 12,
+                fontWeight: 600,
+                borderRadius: 6,
+                border: '1.5px solid var(--line-2)',
+                background: 'var(--bg)',
+                color: 'var(--ink)'
+              }}
+            >
+              {languages.map((l) => (
+                <option key={l.code} value={l.code}>{l.native} ({l.name})</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <h1 style={{ fontSize: 26, marginBottom: 4 }}>{t('welcomeBack', 'Sign in to SkillBridge')}</h1>
         <p className="muted" style={{ marginBottom: 20 }}>Enter your registered email address and password.</p>
 
         <form onSubmit={submit}>

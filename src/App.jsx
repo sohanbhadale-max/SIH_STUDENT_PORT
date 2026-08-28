@@ -1,5 +1,6 @@
 import { StoreProvider, useStore } from './lib/store'
 import { ToastProvider } from './components/ui'
+import { I18nProvider } from './lib/i18n'
 import { AuthFlow } from './screens/Auth'
 import { StudentPortal } from './portals/student/StudentPortal'
 import { IndustryPortal } from './portals/industry/IndustryPortal'
@@ -18,10 +19,12 @@ function Router() {
 
 export default function App() {
   return (
-    <ToastProvider>
-      <StoreProvider>
-        <Router />
-      </StoreProvider>
-    </ToastProvider>
+    <I18nProvider>
+      <ToastProvider>
+        <StoreProvider>
+          <Router />
+        </StoreProvider>
+      </ToastProvider>
+    </I18nProvider>
   )
 }
