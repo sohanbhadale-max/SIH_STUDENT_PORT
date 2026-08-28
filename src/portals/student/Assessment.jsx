@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useStore, profileOf } from '../../lib/store'
-import { shuffledQuestion } from '../../lib/seed'
+import { getDynamicQuestionPool } from '../../lib/seed'
 import { Icon, ProgressBar, Badge, useToast } from '../../components/ui'
 import { skillLevel, LEVEL_TONE, todayISO } from '../../lib/util'
 
@@ -14,36 +14,28 @@ export function Assessment() {
   const [phase, setPhase] = useState(existing ? 'done' : 'intro')
   const [answers, setAnswers] = useState({})
   const [idx, setIdx] = useState(0)
+  const [activePool, setActivePool] = useState(null)
 
-  const questions = useMemo(() => {
-    const pool = []
-    const claimed = profile.skills?.length ? profile.skills : ['Problem Solving']
-    for (const skill of claimed) {
-      let qi = 0
-      while (pool.length < 12) {
-        const q = shuffledQuestion(skill, qi)
-        if (!q) break
-        pool.push({ skill, ...q })
-        qi += 1
-        if (qi > 2) break
-      }
-    }
-    if (!pool.some((q) => q.skill === 'Problem Solving')) {
-      const q = shuffledQuestion('Problem Solving', 0)
-      if (q) pool.push({ skill: 'Problem Solving', ...q })
-    }
-    return pool.slice(0, 10)
-  }, [profile.skills])
-
-  const start = () => { setPhase('quiz'); setIdx(0); setAnswers({}) }
+  const prepareQuiz = () => {
+    const previousSeen = existing?.seenHashes || []
+    const pool = getDynamicQuestionPool(profile.skills || [], previousSeen, 10)
+    setActivePool(pool)
+    setAnswers({})
+    setIdx(0)
+    setPhase('quiz')
+  }
 
   const finish = () => {
+    if (!activePool) return
+    const { questions, newSeenHashes } = activePool
     const bySkill = {}
+
     for (const q of questions) {
       bySkill[q.skill] = bySkill[q.skill] || { total: 0, correct: 0 }
       bySkill[q.skill].total += 1
       if (answers[questions.indexOf(q)] === q.a) bySkill[q.skill].correct += 1
     }
+
     const scores = {}
     let sum = 0
     for (const [skill, s] of Object.entries(bySkill)) {
@@ -51,8 +43,15 @@ export function Assessment() {
       scores[skill] = { score, level: skillLevel(score) }
       sum += score
     }
-    const overall = Math.round(sum / Object.keys(bySkill).length)
-    const result = { takenAt: todayISO(), overall, scores }
+
+    const overall = Math.round(sum / (Object.keys(bySkill).length || 1))
+    const result = {
+      takenAt: todayISO(),
+      overall,
+      scores,
+      seenHashes: newSeenHashes
+    }
+
     submitAssessment(id, result)
     notify(id, `Assessment complete — overall score ${overall}/100. Your verified skills are now live on your profile.`)
     toast('Assessment submitted — skills added to your profile!')
@@ -62,37 +61,41 @@ export function Assessment() {
   if (phase === 'intro') return (
     <div style={{ maxWidth: 640 }}>
       <div className="card">
-        <h2 style={{ marginBottom: 8 }}>Skill assessment</h2>
+        <h2 style={{ marginBottom: 8 }}>Dynamic Skill Assessment</h2>
         <p className="muted">
-          A short test based on your education, interests and claimed skills. It unlocks:
+          A dynamic, non-repeating adaptive test tailored to your education, degree, and claimed skills.
         </p>
         <ul className="muted" style={{ lineHeight: 2 }}>
-          <li>Your skills shown publicly with a <b>skill level score</b></li>
-          <li>Verified internship matching (eligibility notifications)</li>
-          <li>A real employability score on your profile and resume</li>
+          <li><b>Zero Repeated Questions</b> — Fresh randomized question pools on every attempt</li>
+          <li><b>Dynamic Option Shuffling</b> — Prevents memorization and tests true comprehension</li>
+          <li><b>Verified Skill Badge</b> — Publicly showcases verified skill levels to recruiters</li>
         </ul>
-        {profile.skills?.length
-          ? <p className="small">Covering your claimed skills: {profile.skills.join(', ')}</p>
-          : <div className="notice info" style={{ margin: '12px 0' }}>You haven’t claimed any skills in your profile — we’ll start with a general aptitude round.</div>}
-        <div className="notice" style={{ margin: '12px 0' }}>
-          <Icon name="clock" size={18} />
-          <div>You can skip this for now — we’ll keep reminding you until your profile is complete.</div>
-        </div>
-        <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
-          <button className="btn btn-accent btn-lg" onClick={start} disabled={questions.length === 0}>
-            Start assessment ({questions.length} questions) <Icon name="arrow" size={16} />
+        {profile.skills?.length ? (
+          <div style={{ margin: '12px 0' }}>
+            <span className="small muted">Covering your target skills:</span>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
+              {profile.skills.map((s) => <Badge key={s} tone="sky">{s}</Badge>)}
+            </div>
+          </div>
+        ) : (
+          <div className="notice info" style={{ margin: '12px 0' }}>You haven’t claimed any skills in your profile — starting with general technical & soft skill aptitude.</div>
+        )}
+        <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
+          <button className="btn btn-accent btn-lg" onClick={prepareQuiz}>
+            Start Dynamic Assessment (10 Questions) <Icon name="arrow" size={16} />
           </button>
         </div>
       </div>
     </div>
   )
 
-  if (phase === 'quiz') {
+  if (phase === 'quiz' && activePool) {
+    const { questions } = activePool
     const q = questions[idx]
     return (
       <div style={{ maxWidth: 640 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }} className="small muted">
-          <span>Question {idx + 1} of {questions.length}</span>
+          <span>Question {idx + 1} of {questions.length} (Dynamic Non-Repeating)</span>
           <Badge tone="sky">{q.skill}</Badge>
         </div>
         <ProgressBar value={(100 * idx) / questions.length} />
@@ -109,7 +112,7 @@ export function Assessment() {
                   width: 22, height: 22, borderRadius: '50%', border: `2px solid ${answers[idx] === oi ? 'var(--marigold)' : 'var(--line-2)'}`,
                   background: answers[idx] === oi ? 'var(--marigold)' : 'transparent', flex: 'none',
                 }} />
-                {opt}
+                <span style={{ fontSize: 14 }}>{opt}</span>
               </button>
             ))}
           </div>
@@ -131,9 +134,15 @@ export function Assessment() {
         <div className="badge green" style={{ marginBottom: 10 }}><Icon name="check" size={12} /> Assessment complete</div>
         <h2>Overall score: {result.overall}/100</h2>
         <p className="muted">Your verified skills are now part of your profile and resume.</p>
+        <div style={{ marginTop: 14 }}>
+          <button className="btn btn-outline btn-sm" onClick={prepareQuiz}>
+            <Icon name="refresh" size={14} /> Retake Assessment (Fresh Non-Repeating Questions)
+          </button>
+        </div>
       </div>
+
       <div className="grid cols-2">
-        {Object.entries(result.scores).map(([skill, s]) => (
+        {Object.entries(result.scores || {}).map(([skill, s]) => (
           <div key={skill} className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <b>{skill}</b>
@@ -146,9 +155,7 @@ export function Assessment() {
           </div>
         ))}
       </div>
-      <p className="small muted" style={{ marginTop: 16 }}>
-        Tip: retake later from your profile page if you upskill through courses.
-      </p>
     </div>
   )
 }
+

@@ -344,81 +344,108 @@ export const seedAnnouncements = [
 export const QUESTION_BANK = {
   Python: [
     { q: 'What does list(map(str, [1, 2, 3])) return?', opts: ["['1','2','3']", '[1,2,3]', "'123'", 'Error'], a: 0 },
-    { q: 'Which keyword defines a generator function?', opts: ['yield', 'gen', 'async', 'lambda'], a: 0 },
-    { q: 'What is the output of bool("")?', opts: ['False', 'True', 'None', 'TypeError'], a: 0 },
-    { q: 'Which structure is immutable?', opts: ['tuple', 'list', 'dict', 'set'], a: 0 },
+    { q: 'Which keyword defines a generator function in Python?', opts: ['yield', 'gen', 'async', 'lambda'], a: 0 },
+    { q: 'What is the output of bool("") in Python?', opts: ['False', 'True', 'None', 'TypeError'], a: 0 },
+    { q: 'Which Python data structure is immutable?', opts: ['tuple', 'list', 'dict', 'set'], a: 0 },
+    { q: 'Which decorator in Python is used to define class methods?', opts: ['@classmethod', '@staticmethod', '@property', '@abstract'], a: 0 },
+    { q: 'What does the *args parameter allow in a Python function?', opts: ['Variable positional arguments', 'Variable keyword arguments', 'Keyword-only args', 'Default args'], a: 0 },
   ],
   Java: [
-    { q: 'Which keyword prevents a class from being subclassed?', opts: ['final', 'static', 'sealed-off', 'const'], a: 0 },
-    { q: 'Default value of an int field in a class?', opts: ['0', 'null', 'undefined', 'Compile error'], a: 0 },
+    { q: 'Which keyword prevents a class from being subclassed in Java?', opts: ['final', 'static', 'sealed-off', 'const'], a: 0 },
+    { q: 'Default value of an uninitialized int field in a Java class?', opts: ['0', 'null', 'undefined', 'Compile error'], a: 0 },
     { q: 'Which collection preserves insertion order and allows fast random access?', opts: ['ArrayList', 'HashSet', 'LinkedList', 'PriorityQueue'], a: 0 },
+    { q: 'What is the root superclass of all classes in Java?', opts: ['Object', 'Class', 'System', 'Base'], a: 0 },
+    { q: 'Which interface in Java MUST be implemented for threads created via Runnable?', opts: ['run()', 'start()', 'execute()', 'main()'], a: 0 },
   ],
   SQL: [
-    { q: 'Which clause filters rows AFTER aggregation?', opts: ['HAVING', 'WHERE', 'GROUP BY', 'ORDER BY'], a: 0 },
+    { q: 'Which clause filters aggregate results AFTER GROUP BY?', opts: ['HAVING', 'WHERE', 'GROUP BY', 'ORDER BY'], a: 0 },
     { q: 'What does a LEFT JOIN return?', opts: ['All left rows + matching right rows', 'Only matching rows', 'All right rows', 'Cartesian product'], a: 0 },
-    { q: 'Which command removes a table and its schema?', opts: ['DROP TABLE', 'DELETE TABLE', 'REMOVE TABLE', 'TRUNCATE SCHEMA'], a: 0 },
+    { q: 'Which command removes a table structure and all its data permanently?', opts: ['DROP TABLE', 'DELETE TABLE', 'REMOVE TABLE', 'TRUNCATE SCHEMA'], a: 0 },
+    { q: 'What is the purpose of a Database Index?', opts: ['Accelerate query retrieval speed', 'Encrypt column values', 'Enforce foreign keys', 'Backup tables'], a: 0 },
+    { q: 'Which SQL keyword is used to eliminate duplicate rows in query output?', opts: ['DISTINCT', 'UNIQUE', 'GROUP', 'FILTER'], a: 0 },
   ],
   React: [
-    { q: 'Which hook adds local state to a function component?', opts: ['useState', 'useEffect', 'useRef', 'useMemo'], a: 0 },
-    { q: 'What is the purpose of the key prop in lists?', opts: ['Stable identity for reconciliation', 'CSS styling', 'Event binding', 'Sorting'], a: 0 },
-    { q: 'When does useEffect with [] run?', opts: ['Once after first render', 'Every render', 'Never', 'Before render'], a: 0 },
+    { q: 'Which hook adds local state to a React function component?', opts: ['useState', 'useEffect', 'useRef', 'useMemo'], a: 0 },
+    { q: 'What is the primary purpose of the key prop in React lists?', opts: ['Stable element identity for VDOM reconciliation', 'CSS selector styling', 'Event listener binding', 'Sorting items'], a: 0 },
+    { q: 'When does useEffect with an empty dependency array [] run?', opts: ['Once after initial render', 'On every state change', 'Never', 'Before component mount'], a: 0 },
+    { q: 'What hook should be used to store a mutable value that doesn’t trigger re-render?', opts: ['useRef', 'useState', 'useReducer', 'useContext'], a: 0 },
   ],
   C: [
-    { q: 'What does &x denote in C?', opts: ['Address of x', 'Value of x', 'Reference alias', 'Pointer size'], a: 0 },
-    { q: 'sizeof(char) in C is guaranteed to be?', opts: ['1', '2', '4', 'Platform-dependent'], a: 0 },
-    { q: 'Which header declares malloc?', opts: ['stdlib.h', 'stdio.h', 'malloc.h', 'alloc.h'], a: 0 },
+    { q: 'What does the & operator in front of a variable &x denote in C?', opts: ['Memory address of x', 'Value of x', 'Reference alias', 'Pointer size'], a: 0 },
+    { q: 'sizeof(char) in C is guaranteed by the spec to be?', opts: ['1 byte', '2 bytes', '4 bytes', 'Architecture dependent'], a: 0 },
+    { q: 'Which standard library header file declares malloc and free?', opts: ['stdlib.h', 'stdio.h', 'malloc.h', 'alloc.h'], a: 0 },
+    { q: 'What happens when you access an uninitialized local pointer in C?', opts: ['Undefined Behavior / Segmentation Fault', 'Defaults to NULL', 'Returns 0', 'Throws Exception'], a: 0 },
   ],
   'Embedded C': [
-    { q: 'volatile keyword tells the compiler to…', opts: ['Re-read the variable every access', 'Store in ROM', 'Inline the variable', 'Make it thread-local'], a: 0 },
-    { q: 'An ISR should generally…', opts: ['Be short and avoid blocking', 'Use printf heavily', 'Malloc freely', 'Run in user mode'], a: 0 },
+    { q: 'The volatile keyword in C informs the compiler to…', opts: ['Re-read the variable from memory on every access', 'Store in flash ROM', 'Inline function code', 'Make it thread-local'], a: 0 },
+    { q: 'An Interrupt Service Routine (ISR) should generally be designed to…', opts: ['Be brief and non-blocking', 'Call printf frequently', 'Allocate dynamic memory', 'Run in user mode'], a: 0 },
+    { q: 'Which bitwise operation sets the 3rd bit of register REG to 1?', opts: ['REG |= (1 << 3)', 'REG &= ~(1 << 3)', 'REG ^= (1 << 3)', 'REG = 1 << 3'], a: 0 },
   ],
   RTOS: [
-    { q: 'Priority inversion is mitigated using…', opts: ['Priority inheritance', 'Larger stacks', 'Faster CPU', 'Round-robin only'], a: 0 },
-    { q: 'A mutex differs from a binary semaphore mainly in…', opts: ['Ownership semantics', 'Speed always', 'Memory only', 'ISR usage'], a: 0 },
+    { q: 'Priority inversion in an RTOS is commonly mitigated using…', opts: ['Priority inheritance protocol', 'Increasing task stack sizes', 'Faster CPU clock', 'Round-robin scheduling only'], a: 0 },
+    { q: 'A Mutex differs from a Binary Semaphore mainly in having…', opts: ['Ownership semantics and priority inheritance support', 'Higher execution speed always', 'Zero memory overhead', 'ISR calling capability'], a: 0 },
   ],
   JavaScript: [
-    { q: 'typeof null returns…', opts: ["'object'", "'null'", "'undefined'", "'none'"], a: 0 },
-    { q: 'Which creates a new scope for block variables?', opts: ['let', 'var', 'function only', 'window'], a: 0 },
+    { q: 'What is the return value of typeof null in JavaScript?', opts: ["'object'", "'null'", "'undefined'", "'boolean'"], a: 0 },
+    { q: 'Which variable keyword creates block-scoped variables?', opts: ['let', 'var', 'global', 'window'], a: 0 },
+    { q: 'What does Promise.all() do when one input promise rejects?', opts: ['Rejects immediately with that error', 'Resolves remaining promises', 'Retries failed promise', 'Returns null'], a: 0 },
+    { q: 'Which array method creates a new array by applying a function to every element?', opts: ['map()', 'forEach()', 'filter()', 'reduce()'], a: 0 },
   ],
   AWS: [
-    { q: 'Which service provides virtual servers?', opts: ['EC2', 'S3', 'RDS', 'Lambda'], a: 0 },
-    { q: 'S3 stores data as…', opts: ['Objects in buckets', 'Tables', 'Blocks', 'Files in NFS'], a: 0 },
+    { q: 'Which AWS service provides resizable cloud compute virtual servers?', opts: ['EC2', 'S3', 'RDS', 'Lambda'], a: 0 },
+    { q: 'AWS S3 stores data primarily as…', opts: ['Objects inside buckets', 'Relational tables', 'Block devices', 'NFS file shares'], a: 0 },
+    { q: 'Which service offers serverless event-driven code execution without managing servers?', opts: ['AWS Lambda', 'AWS ECS', 'AWS Elastic Beanstalk', 'AWS EKS'], a: 0 },
   ],
   Linux: [
-    { q: 'Which command shows running processes?', opts: ['ps', 'ls', 'df', 'cat'], a: 0 },
-    { q: 'chmod 755 gives others…', opts: ['read + execute', 'full access', 'write only', 'no access'], a: 0 },
+    { q: 'Which command displays active running processes in Linux?', opts: ['ps', 'ls', 'df', 'cat'], a: 0 },
+    { q: 'Permissions chmod 755 grants others (world)…', opts: ['Read and execute only', 'Full write access', 'Write only', 'No access'], a: 0 },
+    { q: 'Which directory in Linux stores system configuration files?', opts: ['/etc', '/var', '/bin', '/tmp'], a: 0 },
   ],
   'Machine Learning': [
-    { q: 'Overfitting means the model…', opts: ['Memorises training data, generalises poorly', 'Under-trains', 'Has high bias', 'Uses too little data always'], a: 0 },
-    { q: 'Which metric suits imbalanced classification best?', opts: ['F1 / PR-AUC', 'Accuracy', 'MSE', 'R²'], a: 0 },
+    { q: 'Overfitting in Machine Learning means the model…', opts: ['Memorises training data but generalises poorly to new data', 'Under-trains on data', 'Has high bias and low variance', 'Requires less data always'], a: 0 },
+    { q: 'Which evaluation metric is best suited for imbalanced classification datasets?', opts: ['F1-Score / PR-AUC', 'Accuracy', 'Mean Squared Error', 'R-Squared'], a: 0 },
+    { q: 'Which technique is used to reduce overfitting by penalizing large weights?', opts: ['L1/L2 Regularization', 'Gradient Descent', 'One-Hot Encoding', 'Normalization'], a: 0 },
   ],
   Statistics: [
-    { q: 'The p-value measures…', opts: ['Evidence against the null hypothesis', 'Probability H0 is true', 'Effect size', 'Sample bias'], a: 0 },
-    { q: 'Median is robust to…', opts: ['Outliers', 'Sample size', 'Units', 'Scaling only'], a: 0 },
+    { q: 'What does a p-value measure in hypothesis testing?', opts: ['Strength of evidence against the null hypothesis', 'Probability the null hypothesis is true', 'Sample effect size', 'Data bias'], a: 0 },
+    { q: 'Which measure of central tendency is least sensitive to extreme outliers?', opts: ['Median', 'Mean', 'Standard Deviation', 'Variance'], a: 0 },
   ],
   'Power BI': [
-    { q: 'DAX is used in Power BI to…', opts: ['Write calculated measures/columns', 'Style visuals', 'Import images', 'Publish to web'], a: 0 },
-    { q: 'Relationships in the model view connect…', opts: ['Tables', 'Pages', 'Workspaces', 'Gateways'], a: 0 },
+    { q: 'What is DAX used for in Power BI?', opts: ['Creating custom calculations, measures, and calculated columns', 'Styling page themes', 'Importing images', 'Configuring gateways'], a: 0 },
+    { q: 'Relationships in Power BI model view connect…', opts: ['Tables via key columns', 'Report pages', 'Workspaces', 'Data sources'], a: 0 },
   ],
   Excel: [
-    { q: 'Which function joins tables by key?', opts: ['XLOOKUP/VLOOKUP', 'SUMIF', 'TRIM', 'MID'], a: 0 },
-    { q: 'A PivotTable is used to…', opts: ['Aggregate and slice data', 'Merge cells', 'Protect sheets', 'Draw charts only'], a: 0 },
+    { q: 'Which Excel function searches for a value in a column and returns a value from another column?', opts: ['XLOOKUP / VLOOKUP', 'SUMIF', 'TRIM', 'CONCATENATE'], a: 0 },
+    { q: 'What is the primary purpose of a PivotTable in Excel?', opts: ['Summarize, aggregate, and analyze complex dataset views', 'Merge text strings', 'Protect worksheet cells', 'Create macros'], a: 0 },
   ],
   'Spring Boot': [
-    { q: '@RestController combines…', opts: ['@Controller + @ResponseBody', '@Service + @Bean', '@Autowired + @Config', 'None'], a: 0 },
-    { q: 'Default embedded server in Spring Boot is…', opts: ['Tomcat', 'Jetty', 'Undertow', 'Nginx'], a: 0 },
+    { q: 'The @RestController annotation in Spring Boot combines…', opts: ['@Controller and @ResponseBody', '@Service and @Bean', '@Component and @Autowired', '@Repository and @Entity'], a: 0 },
+    { q: 'What is the default embedded web server in Spring Boot?', opts: ['Tomcat', 'Jetty', 'Undertow', 'Nginx'], a: 0 },
   ],
   'Problem Solving': [
-    { q: 'Big-O of binary search on a sorted array?', opts: ['O(log n)', 'O(n)', 'O(n log n)', 'O(1)'], a: 0 },
-    { q: 'Best data structure for FIFO behaviour?', opts: ['Queue', 'Stack', 'Heap', 'Trie'], a: 0 },
+    { q: 'What is the time complexity of binary search on a sorted array of size N?', opts: ['O(log N)', 'O(N)', 'O(N log N)', 'O(1)'], a: 0 },
+    { q: 'Which data structure follows First-In, First-Out (FIFO) ordering?', opts: ['Queue', 'Stack', 'Min-Heap', 'Binary Tree'], a: 0 },
+    { q: 'Which sorting algorithm has an average time complexity of O(N log N)?', opts: ['Merge Sort', 'Bubble Sort', 'Insertion Sort', 'Selection Sort'], a: 0 },
+    { q: 'What data structure is used to implement Breadth-First Search (BFS)?', opts: ['Queue', 'Stack', 'Array', 'Hash Map'], a: 0 },
   ],
   'Communication': [
-    { q: 'A good status update leads with…', opts: ['The conclusion/ask', 'Full history', 'Jargon', 'Apologies'], a: 0 },
-    { q: 'STAR stands for…', opts: ['Situation, Task, Action, Result', 'None of these', 'Scope, Time, Aim, Review', 'Story, Tone, Aim, Result'], a: 0 },
+    { q: 'In professional communication, what does the STAR method stand for?', opts: ['Situation, Task, Action, Result', 'Scope, Time, Aim, Review', 'Story, Tone, Aim, Result', 'Standard, Topic, Answer, Reason'], a: 0 },
+    { q: 'When communicating a project update to leadership, the best practice is to start with…', opts: ['The main conclusion, key milestone, or required action', 'Detailed chronological technical logs', 'Apologies for delays', 'Acronyms without context'], a: 0 },
+    { q: 'Active listening during technical code reviews involves…', opts: ['Asking clarifying questions and summarizing feedback', 'Defending code immediately', 'Interrupting the reviewer', 'Ignoring suggestions'], a: 0 },
   ],
 }
 
-// Shuffle options deterministically-ish at seed time so answers aren't always first.
+// Fisher-Yates array shuffle
+function shuffleArray(arr) {
+  const list = [...arr]
+  for (let i = list.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[list[i], list[j]] = [list[j], list[i]]
+  }
+  return list
+}
+
+// Single question shuffle helper
 export function shuffledQuestion(skill, qIdx) {
   const base = QUESTION_BANK[skill]?.[qIdx]
   if (!base) return null
@@ -427,3 +454,58 @@ export function shuffledQuestion(skill, qIdx) {
   const opts = order.map((i) => base.opts[i])
   return { q: base.q, opts, a: order.indexOf(base.a) }
 }
+
+/**
+ * Dynamic Non-Repeating Question Selector
+ * Guarantees zero repeated questions across student sessions
+ */
+export function getDynamicQuestionPool(claimedSkills = [], seenHashes = [], targetCount = 10) {
+  const seenSet = new Set(seenHashes)
+  const candidatePool = []
+
+  const targetSkills = claimedSkills.length > 0 ? claimedSkills : ['Problem Solving', 'Communication']
+
+  // 1. Gather matching questions from claimed skills
+  for (const skill of targetSkills) {
+    const qList = QUESTION_BANK[skill] || []
+    for (const item of qList) {
+      if (!seenSet.has(item.q)) {
+        candidatePool.push({ skill, ...item })
+      }
+    }
+  }
+
+  // 2. Fallback to general problem solving, soft skills & tech if needed
+  if (candidatePool.length < targetCount) {
+    for (const [skill, qList] of Object.entries(QUESTION_BANK)) {
+      for (const item of qList) {
+        if (!seenSet.has(item.q) && !candidatePool.some((c) => c.q === item.q)) {
+          candidatePool.push({ skill, ...item })
+        }
+      }
+    }
+  }
+
+  // 3. Shuffle candidate questions dynamically
+  const shuffledCandidates = shuffleArray(candidatePool)
+  const selected = shuffledCandidates.slice(0, targetCount)
+
+  // 4. Randomize answer options for each selected question
+  const finalQuestions = selected.map((item) => {
+    const originalAnswerText = item.opts[item.a]
+    const shuffledOpts = shuffleArray(item.opts)
+    const newCorrectIdx = shuffledOpts.indexOf(originalAnswerText)
+    return {
+      skill: item.skill,
+      q: item.q,
+      opts: shuffledOpts,
+      a: newCorrectIdx
+    }
+  })
+
+  return {
+    questions: finalQuestions,
+    newSeenHashes: [...seenSet, ...finalQuestions.map((q) => q.q)]
+  }
+}
+
