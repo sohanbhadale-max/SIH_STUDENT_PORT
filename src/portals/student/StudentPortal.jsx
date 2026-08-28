@@ -8,6 +8,7 @@ import { Learn } from './Learn'
 import { ResumePage } from './Resume'
 import { InternshipsPage } from './Internships'
 import { JobsPage } from './Jobs'
+import { CredentialVerificationModule } from './CredentialVerification'
 import { AnnouncementsView } from '../../components/Announcements'
 import { ProfilePage } from '../shared/ProfilePage'
 
@@ -23,6 +24,7 @@ export function StudentPortal() {
   const nav = [
     { key: 'home', label: 'Home', icon: 'home' },
     { key: 'assessment', label: 'Skill Assessment', icon: 'target', badge: hasAssessment ? 0 : 1 },
+    { key: 'credentials', label: 'Credential Verification', icon: 'shield' },
     { key: 'internships', label: 'Internships', icon: 'briefcase', badge: matches.length },
     { key: 'jobs', label: 'Jobs', icon: 'search' },
     { key: 'learn', label: 'Courses', icon: 'book' },
@@ -35,6 +37,7 @@ export function StudentPortal() {
     <Shell title={nav.find((n) => n.key === tab).label} nav={nav} active={tab} onNav={setTab}>
       {tab === 'home' && <Home go={setTab} />}
       {tab === 'assessment' && <Assessment />}
+      {tab === 'credentials' && <CredentialVerificationModule />}
       {tab === 'internships' && <InternshipsPage />}
       {tab === 'jobs' && <JobsPage />}
       {tab === 'learn' && <Learn />}
