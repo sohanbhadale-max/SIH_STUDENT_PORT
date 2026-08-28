@@ -228,11 +228,23 @@ export const TRANSLATIONS = {
     retakeAssessment: 'ಮತ್ತೆ ಪರೀಕ್ಷೆ ಬರೆಯಿರಿ',
     startAssessment: 'ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭಿಸಿ',
     educationDetails: 'ಶಿಕ್ಷಣದ ವಿವರಗಳು',
-    degreeType: 'ಡಿಗ್ರಿ ಮಾದರಿ',
-    specialization: 'ವಿಭಾಗ / ವಿಷಯ',
-    selectDegree: 'ಡಿಗ್ರಿ ಆಯ್ಕೆಮಾಡಿ…',
+    degreeType: 'ಪದವಿ ಮಾದರಿ',
+    specialization: 'ವಿಭಾಗ / ಶಾಖೆ',
+    selectDegree: 'ಪದವಿ ಆಯ್ಕೆಮಾಡಿ…',
     selectSpec: 'ವಿಭಾಗ ಆಯ್ಕೆಮಾಡಿ…',
-    trustScore: 'ಪ್ರಮಾಣಪತ್ರ ವಿಶ್ವಾಸಾರ್ಹತೆ'
+    trustScore: 'ಪ್ರಮಾಣಪತ್ರ ವಿಶ್ವಾಸಾರ್ಹತೆ',
+    consentTitle: 'ಪರೀಕ್ಷೆಯ ನಿಯಮಗಳು ಮತ್ತು ಗೌಪ್ಯತಾ ಸೂಚನೆ',
+    rulesFullscreen: 'ಪರೀಕ್ಷೆಯ ಉದ್ದಕ್ಕೂ ಫುಲ್ ಸ್ಕ್ರೀನ್ ಮೋಡ್ ಕಡ್ಡಾಯವಾಗಿದೆ',
+    rulesTabSwitch: 'ಟ್ಯಾಬ್ ಬದಲಾಯಿಸುವುದು ಸ್ಕೋರ್ ಕಡಿಮೆ ಮಾಡುತ್ತದೆ',
+    rulesDevTools: 'ಡೆವ್ ಟೂಲ್ಸ್ (F12) ಮೇಲೆ ಕಣ್ಣಿಡಲಾಗುತ್ತದೆ',
+    rulesScreenSharing: 'ಸ್ಕ್ರೀನ್ ಶೇರಿಂಗ್ ಸೂಚನೆಗಳನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಲಾಗುತ್ತದೆ',
+    disclaimerText: 'ಸೂಚನೆ: ಬ್ರೌಸರ್ ಆಧಾರಿತ ಮೇಲ್ವಿಚಾರಣೆಯು 100% ಬಾಹ್ಯ ಸಾಧನಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಲು ಖಾತರಿ ನೀಡುವುದಿಲ್ಲ.',
+    agreeCheckbox: 'ನಾನು ಎಲ್ಲಾ ನಿಯಮಗಳನ್ನು ಓದಿದ್ದೇನೆ ಮತ್ತು ಒಪ್ಪಿಕೊಳ್ಳುತ್ತೇನೆ',
+    startTestBtn: 'ನಾನು ಒಪ್ಪುತ್ತೇನೆ ಮತ್ತು ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭಿಸಿ',
+    integrityScoreText: 'ಪರೀಕ್ಷೆಯ ನಿಖರತೆ ಸ್ಕೋರ್',
+    securityWarningText: 'ಸುರಕ್ಷತಾ ಎಚ್ಚರಿಕೆ',
+    proctorAuditTitle: 'ಲೈವ್ ಪ್ರೊಕ್ಟರಿಂಗ್ ಮತ್ತು ಆಡಿಟ್ ಲಾಗ್',
+    tamperEvidentSig: 'SHA-256 ಡಿಜಿಟಲ್ ಸಹಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ'
   },
 
   ta: {
@@ -279,7 +291,19 @@ export const TRANSLATIONS = {
     specialization: 'சிறப்புப் பிரிவு',
     selectDegree: 'பட்டப் படிப்பைத் தேர்ந்தெடுக்கவும்…',
     selectSpec: 'பிரிவைத் தேர்ந்தெடுக்கவும்…',
-    trustScore: 'நம்பகத்தன்மை மதிப்பெண்'
+    trustScore: 'நம்பகத்தன்மை மதிப்பெண்',
+    consentTitle: 'தேர்வு விதிகள் மற்றும் தனியுரிமை அறிவிப்பு',
+    rulesFullscreen: 'முழுத்திரை முறை கட்டாயமாகும்',
+    rulesTabSwitch: 'டேப் மாற்றுவது மதிப்பெண்ணைக் குறைக்கும்',
+    rulesDevTools: 'தேர்வு நேர கண்காணிப்பு செயலில் உள்ளது',
+    rulesScreenSharing: 'திரை பகிர்வு சமிக்ஞைகள் கண்காணிக்கப்படுகின்றன',
+    disclaimerText: 'அறிவிப்பு: உலாவி அடிப்படையிலான கண்காணிப்பு 100% வெளிப்புற சாதனங்களைக் கண்டறிய உத்தரவாதம் அளிக்காது.',
+    agreeCheckbox: 'நான் அனைத்து விதிகளையும் படித்து ஏற்றுக்கொள்கிறேன்',
+    startTestBtn: 'நான் ஒப்புக்கொள்கிறேன் & தேர்வைத் தொடங்கு',
+    integrityScoreText: 'தேர்வு நேர்மை மதிப்பெண்',
+    securityWarningText: 'பாதுகாப்பு எச்சரிக்கை',
+    proctorAuditTitle: 'நேரடி கண்காணிப்பு & தணிக்கை பதிவு',
+    tamperEvidentSig: 'SHA-256 டிஜிட்டல் கையொப்பம் சரிபார்க்கப்பட்டது'
   },
 
   te: {
